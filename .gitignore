@@ -10,6 +10,8 @@
 !.vscode/*.code-snippets
 
 .DS_Store
+./static/.DS_Store
+./static/images/.DS_Store
 
 # Local History for Visual Studio Code
 .history/
