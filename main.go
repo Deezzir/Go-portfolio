@@ -49,7 +49,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	port := ":8080"
+	port := ":8090"
 
 	file_server := http.FileServer(http.Dir("./static"))
 

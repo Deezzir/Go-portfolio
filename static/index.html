@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noxu Portfolio</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" href="./images/favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -25,18 +25,18 @@
             <span></span>
         </div>
         <ul class="links-container">
-            <li class="links-item"><a href="#" class="link active">home</a></li>
-            <li class="links-item"><a href="#project-section" class="link">projects</a></li>
-            <li class="links-item"><a href="#about-section" class="link">about</a></li>
-            <li class="links-item"><a href="#skill-section" class="link">skills</a></li>
-            <li class="links-item"><a href="#contact-section" class="link">contact</a></li>
+            <li class="links-item"><a href="#" class="link" id="home-link">home</a></li>
+            <li class="links-item"><a href="#project-section" class="link" id="project-link">projects</a></li>
+            <li class="links-item"><a href="#about-section" class="link" id="about-link">about</a></li>
+            <li class="links-item"><a href="#skill-section" class="link" id="skill-link">skills</a></li>
+            <li class="links-item"><a href="#contact-section" class="link" id="contact-link">contact</a></li>
         </ul>
     </nav>
 
     <!-- home section -->
-    <section class="home">
+    <section class="home" id="home-section">
         <div class="hero-content">
-            <h1 class="hero-heading"><span class="highlight">hi, </span>i am Iurii Kondrakov</h1>
+            <h1 class="hero-heading"><span class="highlight">Hi, </span>I am Iurii Kondrakov</h1>
             <p class="profession">Software Developer/Data Scientist</p>
             <p class="info">A motivated and proactive IT graduate with persuasive communication skills and comprehensive
                 knowledge of computer sciences, programming languages and techniques.</p>
@@ -46,7 +46,7 @@
                 <a href="https://github.com/Deezzir" class="fa fa-github"></a>
             </div>
         </div>
-        <img src="./images/me.jpeg" class="me" alt="">
+        <img src="./images/me.jpeg" class="me" alt="me">
     </section>
 
     <!-- about section -->
@@ -70,7 +70,7 @@
                     in optimization and portability across platforms using Parallel algorithms, architecture-specific
                     SIMD implementations and orchestration systems.
                 </p>
-                <a href="#" class="btn">download cv</a>
+                <a href="#" id="download" class="btn">download cv</a>
             </div>
         </div>
     </section>
@@ -167,13 +167,49 @@
             <div class="skill-card xxlarge title" style="--bg: #e14437">
                 <p class="skill">Languages</p>
             </div>
+            <div class="skill-card" style="--bg: #f06529">
+                <p class="skill">C</p>
+            </div>
+            <div class="skill-card large" style="--bg: #3c0b97">
+                <p class="skill">C++</p>
+            </div>
+            <div class="skill-card" style="--bg: #c4d4f0">
+                <p class="skill">C#</p>
+            </div>
+            <div class="skill-card" style="--bg: #959701">
+                <p class="skill">GoLang</p>
+            </div>
+            <div class="skill-card large" style="--bg: #07989e">
+                <p class="skill">Python</p>
+            </div>
+            <div class="skill-card" style="--bg: #c72d4a">
+                <p class="skill">Rust</p>
+            </div>
+            <div class="skill-card large" style="--bg: #d46277">
+                <p class="skill">JS</p>
+            </div>
+            <div class="skill-card" style="--bg: #821bc3">
+                <p class="skill">TypeScript</p>
+            </div>
+            <div class="skill-card" style="--bg: #2e0b7b">
+                <p class="skill">Java</p>
+            </div>
+            <div class="skill-card" style="--bg: #c19111">
+                <p class="skill">Ruby</p>
+            </div>
+            <div class="skill-card" style="--bg: #5ed9fb">
+                <p class="skill">Swift</p>
+            </div>
+            <div class="skill-card" style="--bg: #cc6699">
+                <p class="skill">FreePascal</p>
+            </div>
         </div>
     </section>
 
     <!-- contact form -->
     <section class="contact" id="contact-section">
         <h2 class="heading">Contact<span class="highlight"> me</span></h2>
-        <p class="sub-heading">Feel free to contact me any time</p>
+        <p class="sub-heading">Feel free to contact me anytime</p>
         <div class="seperator"></div>
         <div class="contact-form">
             <div class="name">
