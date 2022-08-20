@@ -13,6 +13,40 @@
 </head>
 
 <body>
+    <div id="loader-wrapper">
+        <svg id="loader" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"
+            overflow="visible" fill="#1a2639">
+            <defs>
+                <rect id="inline" x="15" y="40" width="10" height="20" rx="2" ry="2"></rect>
+            </defs>
+            <use xlink:href="#inline" x="0">
+                <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0s" repeatCount="indefinite"></animate>
+                <animateTransform attributeName="transform" type="translate" additive="sum" dur="1s" begin="0s"
+                    repeatCount="indefinite" from="0 0" to="10"></animateTransform>
+            </use>
+            <use xlink:href="#inline" x="20">
+                <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0.25s" repeatCount="indefinite">
+                </animate>
+                <animateTransform attributeName="transform" type="translate" additive="sum" dur="1s" begin="0.25s"
+                    repeatCount="indefinite" from="0 0" to="10"></animateTransform>
+            </use>
+            <use xlink:href="#inline" x="40">
+                <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0.5s" repeatCount="indefinite">
+                </animate>
+                <animateTransform attributeName="transform" type="translate" additive="sum" dur="1s" begin="0.5s"
+                    repeatCount="indefinite" from="0 0" to="10"></animateTransform>
+            </use>
+            <use xlink:href="#inline" x="60">
+                <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0.75s" repeatCount="indefinite">
+                </animate>
+                <animateTransform attributeName="transform" type="translate" additive="sum" dur="1s" begin="0.75s"
+                    repeatCount="indefinite" from="0 0" to="10"></animateTransform>
+            </use>
+        </svg>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
     <!-- navbar  -->
     <nav class="navbar">
         <h1 class="brand">
@@ -36,17 +70,37 @@
     <!-- home section -->
     <section class="home" id="home-section">
         <div class="hero-content">
-            <h1 class="hero-heading"><span class="highlight">Hi, </span>I am Iurii Kondrakov</h1>
+            <h1 class="hero-heading"><span class="highlight">Hi, </span><span class="typing-wrapper"><span
+                        class="typing">I am Iurii Kondrakov</span></span></h1>
+            <!-- <h1 class="hero-heading"></h1> -->
+
             <p class="profession">Software Developer/Data Scientist</p>
             <p class="info">A motivated and proactive IT graduate with persuasive communication skills and comprehensive
                 knowledge of computer sciences, programming languages and techniques.</p>
             <div class="btns">
-                <a href="#contact-section" class="btn">contact</a>
-                <a href="https://www.linkedin.com/in/deezzir/" class="fa fa-linkedin"></a>
-                <a href="https://github.com/Deezzir" class="fa fa-github"></a>
+                <a href="#contact-section" class="btn left-sided">contact</a>
+                <a href="https://github.com/Deezzir" class="btn fa fa-github"></a>
+                <a href="https://www.linkedin.com/in/deezzir/" class="btn right-sided fa fa-linkedin"></a>
             </div>
         </div>
         <img src="./images/me.jpeg" class="me" alt="me">
+    </section>
+
+    <!-- project section -->
+    <section class="project" id="project-section">
+        <h2 class="heading">Project<span class="highlight">s</span></h2>
+        <p class="sub-heading">A little list of my favourite projects</p>
+        <div class="seperator"></div>
+        <div class="filters">
+            <button class="filter-btn active" id="all">all</button>
+            <button class="filter-btn" id="javascript">Web</button>
+            <button class="filter-btn" id="ui">Mobile</button>
+            <button class="filter-btn" id="backend">Data Science</button>
+            <button class="filter-btn" id="fullstack">Games</button>
+        </div>
+
+        <div class="project-container">
+        </div>
     </section>
 
     <!-- about section -->
@@ -80,127 +134,146 @@
         <h2 class="heading">languages and framework</h2>
         <div class="seperator"></div>
         <div class="skill-container">
+            <div class="skill-card xxlarge title" style="--bg: #2e0b7b">
+                <p class="skill">Data Science</p>
+            </div>
+            <div class="skill-card inverted-2" style="--bg: #326690">
+                <p class="skill">TensorFlow</p>
+            </div>
+            <div class="skill-card inverted-3" style="--bg: #c72d4a">
+                <p class="skill">MatLab</p>
+            </div>
+            <div class="skill-card inverted-1" style="--bg: #cc6699">
+                <p class="skill">Jupyter</p>
+            </div>
+            <div class="skill-card inverted-3" style="--bg: #f7df1e">
+                <p class="skill">Sci-Kit Learn</p>
+            </div>
+            <div class="skill-card inverted-2" style="--bg: #cc6699">
+                <p class="skill">PyTorch</p>
+            </div>
+
             <div class="skill-card xxlarge title" style="--bg: #f06529">
                 <p class="skill">Web Development</p>
             </div>
-            <div class="skill-card large" style="--bg: #f06529">
+            <div class="skill-card inverted-1 large" style="--bg: #4521eb">
                 <p class="skill">ReactJS</p>
             </div>
-            <div class="skill-card large" style="--bg: #379ad6">
+            <div class="skill-card inverted-3 large" style="--bg: #379ad6">
                 <p class="skill">VueJS</p>
             </div>
-            <div class="skill-card" style="--bg: #cc6699">
+            <div class="skill-card inverted-2" style="--bg: #cc6699">
                 <p class="skill">AngularJS</p>
             </div>
-            <div class="skill-card" style="--bg: #f7df1e">
+            <div class="skill-card inverted-1" style="--bg: #f7df1e">
                 <p class="skill">Bulma</p>
             </div>
-            <div class="skill-card" style="--bg: #5ed9fb">
+            <div class="skill-card inverted-3" style="--bg: #5ed9fb">
                 <p class="skill">Bootstrap</p>
             </div>
-            <div class="skill-card" style="--bg: #326690">
+            <div class="skill-card inverted-2" style="--bg: #326690">
                 <p class="skill">Materialize</p>
             </div>
-            <div class="skill-card large" style="--bg: #83cd29">
+            <div class="skill-card inverted-1 large" style="--bg: #83cd29">
                 <p class="skill">Tailwind</p>
             </div>
-            <div class="skill-card" style="--bg: #5ed9fb">
+            <div class="skill-card inverted-2" style="--bg: #5ed9fb">
                 <p class="skill">ExpressJS</p>
             </div>
-            <div class="skill-card" style="--bg: #cc6699">
+            <div class="skill-card inverted-1" style="--bg: #cc6699">
                 <p class="skill">Ruby On Rails</p>
             </div>
-            <div class="skill-card" style="--bg: #f06529">
+            <div class="skill-card inverted-3" style="--bg: #f06529">
                 <p class="skill">ASP.Net</p>
             </div>
-            <div class="skill-card" style="--bg: #379ad6">
+            <div class="skill-card inverted-1" style="--bg: #379ad6">
                 <p class="skill">Django</p>
             </div>
-            <div class="skill-card" style="--bg: #821bc3">
+            <div class="skill-card inverted-3" style="--bg: #821bc3">
                 <p class="skill">Kubernetes</p>
             </div>
 
-            <div class="skill-card xxlarge title" style="--bg: #afc4d9">
+            <div class="skill-card inverted xxlarge title" style="--bg: #afc4d9">
                 <p class="skill">Mobile Development</p>
             </div>
-            <div class="skill-card xlarge" style="--bg: #959701">
+            <div class="skill-card inverted-3 xlarge" style="--bg: #959701">
                 <p class="skill">Swift</p>
             </div>
-            <div class="skill-card" style="--bg: #9463c2">
+            <div class="skill-card inverted-1" style="--bg: #9463c2">
                 <p class="skill">React Native</p>
             </div>
-            <div class="skill-card" style="--bg: #a9fb81">
+            <div class="skill-card inverted-2" style="--bg: #326690">
                 <p class="skill">Flutter</p>
             </div>
 
             <div class="skill-card xxlarge title" style="--bg: #5776dc">
                 <p class="skill">Database</p>
             </div>
-            <div class="skill-card" style="--bg: #c72d4a">
+            <div class="skill-card inverted-1" style="--bg: #c72d4a">
                 <p class="skill">OracleSQL</p>
             </div>
-            <div class="skill-card large" style="--bg: #1189aa">
+            <div class="skill-card inverted-2 large" style="--bg: #1189aa">
                 <p class="skill">MySQL</p>
             </div>
-            <div class="skill-card" style="--bg: #4521eb">
+            <div class="skill-card inverted-1" style="--bg: #4521eb">
                 <p class="skill">SQLLite</p>
             </div>
-            <div class="skill-card" style="--bg: #fdf528">
+            <div class="skill-card inverted-3" style="--bg: #821bc3">
                 <p class="skill">MariaDB</p>
             </div>
-            <div class="skill-card" style="--bg: #a9fb81">
+            <div class="skill-card inverted-2" style="--bg: #326690">
                 <p class="skill">Postgres</p>
             </div>
-            <div class="skill-card" style="--bg: #2e0b7b">
+            <div class="skill-card inverted-1" style="--bg: #2e0b7b">
                 <p class="skill">MongoDB</p>
             </div>
-            <div class="skill-card" style="--bg: #411d50">
+            <div class="skill-card inverted-2" style="--bg: #411d50">
                 <p class="skill">Firestore</p>
             </div>
-            <div class="skill-card" style="--bg: #bb5638">
+            <div class="skill-card inverted-3" style="--bg: #bb5638">
                 <p class="skill">Redis</p>
             </div>
-            <div class="skill-card" style="--bg: #d46277">
+            <div class="skill-card inverted-1" style="--bg: #d46277">
                 <p class="skill">Cassandra</p>
             </div>
 
             <div class="skill-card xxlarge title" style="--bg: #e14437">
                 <p class="skill">Languages</p>
             </div>
-            <div class="skill-card" style="--bg: #f06529">
+            <div class="skill-card inverted-2" style="--bg: #f06529">
                 <p class="skill">C</p>
             </div>
-            <div class="skill-card large" style="--bg: #3c0b97">
+            <div class="skill-card inverted-3 large" style="--bg: #3c0b97">
                 <p class="skill">C++</p>
             </div>
-            <div class="skill-card" style="--bg: #c4d4f0">
+            <div class="skill-card inverted-1" style="--bg: #c4d4f0">
                 <p class="skill">C#</p>
             </div>
-            <div class="skill-card" style="--bg: #959701">
+            <div class="skill-card inverted-2" style="--bg: #959701">
                 <p class="skill">GoLang</p>
             </div>
-            <div class="skill-card large" style="--bg: #07989e">
+            <div class="skill-card inverted-3 large" style="--bg: #07989e">
                 <p class="skill">Python</p>
             </div>
-            <div class="skill-card" style="--bg: #c72d4a">
+            <div class="skill-card inverted-2" style="--bg: #c72d4a">
                 <p class="skill">Rust</p>
             </div>
-            <div class="skill-card large" style="--bg: #d46277">
+            <div class="skill-card inverted-1 large" style="--bg: #d46277">
                 <p class="skill">JS</p>
             </div>
-            <div class="skill-card" style="--bg: #821bc3">
+            <div class="skill-card inverted-3" style="--bg: #821bc3">
                 <p class="skill">TypeScript</p>
             </div>
-            <div class="skill-card" style="--bg: #2e0b7b">
+            <div class="skill-card inverted-1" style="--bg: #2e0b7b">
                 <p class="skill">Java</p>
             </div>
-            <div class="skill-card" style="--bg: #c19111">
+            <div class="skill-card inverted-2" style="--bg: #c19111">
                 <p class="skill">Ruby</p>
             </div>
-            <div class="skill-card" style="--bg: #5ed9fb">
+            <div class="skill-card inverted-3" style="--bg: #5ed9fb">
                 <p class="skill">Swift</p>
             </div>
-            <div class="skill-card" style="--bg: #cc6699">
+            <div class="skill-card inverted-1" style="--bg: #cc6699">
                 <p class="skill">FreePascal</p>
             </div>
         </div>
@@ -236,8 +309,7 @@
     </section>
 
     <footer class="footer">Made by Iurii Kondrakov | deezzir@gmail.com</footer>
+    <script src="./index.js"></script>
 </body>
-
-<script src="./index.js"></script>
 
 </html>

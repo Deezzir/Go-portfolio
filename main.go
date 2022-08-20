@@ -19,6 +19,16 @@ type ContactRequest struct {
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/contact" {
+		http.Error(w, "404 not found.", http.StatusNotFound)
+		return
+	}
+
+	if r.Method != "POST" {
+		http.Error(w, "Method is not supported.", http.StatusNotFound)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	var c ContactRequest
 
@@ -33,11 +43,6 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// lastName := r.FormValue("lastname")
-	// firstName := r.FormValue("firstname")
-	// email := r.FormValue("email")
-	// message := r.FormValue("msg")
-
 	log.Printf("INFO: request = %+v\n", c)
 
 	msg := Response{
@@ -49,7 +54,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	port := ":8090"
+	port := "0.0.0.0:80"
 
 	file_server := http.FileServer(http.Dir("./static"))
 
