@@ -193,20 +193,24 @@ function fieldValidation(field, validationFunction) {
     let error = document.getElementById(field.className);
 
     let isFieldValid = validationFunction(field.value)
-    if (!isFieldValid || error.classList.contains('hidden')) {
-        error.classList.remove('hidden');
-        setTimeout(function () {
-            error.classList.remove('visuallyhidden');
-        }, 20);
+    if (!isFieldValid) {
+        if (error.classList.contains('hidden')) {
+            error.classList.remove('hidden');
+            setTimeout(function () {
+                error.classList.remove('visuallyhidden');
+            }, 20);
+        }
     } else {
-        error.classList.add('visuallyhidden');
-        error.addEventListener('transitionend', function (e) {
-            error.classList.add('hidden');
-        }, {
-            capture: false,
-            once: true,
-            passive: false
-        });
+        if (!error.classList.contains('hidden')) {
+            error.classList.add('visuallyhidden');
+            error.addEventListener('transitionend', function (e) {
+                error.classList.add('hidden');
+            }, {
+                capture: false,
+                once: true,
+                passive: false
+            });
+        }
     }
 
     return isFieldValid;
