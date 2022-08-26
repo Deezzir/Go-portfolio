@@ -1,10 +1,7 @@
 /* =============================================================== */
 /* Main */
 /* =============================================================== */
-:root {
-    --hero-typying-speed: 4s;
-    --hero-char-num: 20;
-}
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=Ubuntu&family=Ubuntu+Mono&display=swap');
 
 * {
     margin: 0;
@@ -21,7 +18,13 @@ body {
     position: relative;
     background: #1a2639;
     color: #fff;
-    font-family: 'roboto', sans-serif;
+}
+
+body,
+input,
+textarea,
+button {
+    font-family: 'Ubuntu', sans-serif;
 }
 
 /* =============================================================== */
@@ -32,19 +35,19 @@ body {
 }
 
 .typing {
-    width: 0;
+    width: 1%;
     white-space: nowrap;
     overflow: hidden;
     border-right: 2px solid white;
 
-    animation: type var(--hero-typying-speed) steps(var(--hero-char-num)) 1s forwards,
+    animation: type 4s steps(20) 1s forwards,
         blink .5s step-end infinite alternate;
 }
 
 .info {
     opacity: 0;
     transform: translateY(3rem);
-    animation: fadeIn calc(var(--hero-typying-speed) - 1s) ease forwards;
+    animation: fadeIn calc(4s) ease forwards;
 }
 
 @keyframes fadeIn {
@@ -56,7 +59,7 @@ body {
 
 @keyframes type {
     from {
-        width: 0
+        width: 0%
     }
 
     to {
@@ -233,14 +236,18 @@ body {
     padding: 0 10vw;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #3e4a61;
     align-items: center;
     z-index: 9;
 }
 
 .brand {
-    text-transform: capitalize;
-    font-weight: 500;
+    font-family: 'Silkscreen', cursive;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .brand img {
@@ -252,9 +259,11 @@ body {
 }
 
 .brand span {
+    color: white;
     display: inline;
     font-size: 2rem;
     line-height: 2rem;
+    padding-left: 5px;
 }
 
 .links-container {
@@ -263,7 +272,7 @@ body {
 }
 
 .link {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     text-transform: capitalize;
     color: #fff;
     text-decoration: none;
@@ -327,10 +336,8 @@ body {
 }
 
 .hero-heading {
-    display: flex;
-    font-family: 'Source Code Pro', monospace !important;
+    font-family: 'Ubuntu Mono', monospace;
     font-size: 3.5rem;
-    justify-content: left;
     font-weight: 500;
 }
 
@@ -342,7 +349,7 @@ body {
     font-size: 1.2rem;
     width: fit-content;
     display: block;
-    margin: 10px 0 20px;
+    margin: 15px 0 20px;
     margin-left: auto;
     text-transform: capitalize;
     position: relative;
@@ -392,7 +399,8 @@ div.btns {
     text-decoration: none;
     font-size: 1.5rem;
     border-radius: 50px;
-    background: #174dbe;
+    background: linear-gradient(270deg, #477ef4, #174dbe);
+    transition: transform 250ms ease;
     color: #fff;
     text-transform: capitalize;
     border: none;
@@ -418,8 +426,10 @@ div.btns {
 }
 
 .btn:hover,
-.fa:hover {
+.btn:focus,
+.btn:active {
     opacity: 0.7;
+    transform: translate(-3%, -3%);
 }
 
 .fa.fa-linkedin {
@@ -443,7 +453,9 @@ div.btns {
 
 .filters {
     width: fit-content;
-    display: block;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     margin: 80px auto;
 }
 
@@ -659,14 +671,13 @@ div.btns {
     color: #fff;
     border: none;
     outline: none;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     resize: none;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .message {
     height: 220px;
-    font-family: 'roboto', sans-serif;
 }
 
 .contact-form .email {
@@ -683,17 +694,18 @@ div.btns {
     margin: 0;
 }
 
+
 .contact-form .btn {
     display: block;
-    margin: auto;
+    margin: 20px auto;
     cursor: pointer;
 }
 
 .contact-form .form-error {
     transition: all 0.25s linear;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: crimson;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .hidden {
@@ -711,19 +723,44 @@ div.btns {
     width: 100%;
     height: 30px;
     text-align: center;
-    background-color: #174dbe;
+    background: linear-gradient(270deg, #477ef4, #174dbe);
     line-height: 30px;
 }
 
+
 /* =============================================================== */
-/* Tablets View Responsive */
+/*                                                                 */
+/*                                                                 */
+/*                                                                 */
 /* =============================================================== */
-@media screen and (max-width: 996px) {
+
+
+/* =============================================================== */
+/* Latge Desktops Responsive */
+/* =============================================================== */
+@media screen and (min-width: 1400px) {
     html {
-        font-size: 14px;
+        font-size: 18px;
+    }
+}
+
+/* =============================================================== */
+/* Desktops Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* =============================================================== */
+/* Tablets Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1024px) {
+    html {
+        font-size: 15px;
     }
 
-    /* toggle btn */
     .toggle-btn {
         position: absolute;
         width: 40px;
@@ -755,7 +792,6 @@ div.btns {
         transform: rotate(-45deg);
     }
 
-    /* links */
     .links-container {
         position: absolute;
         top: 80px;
@@ -767,7 +803,7 @@ div.btns {
         transition: .5s;
         opacity: 0;
         pointer-events: none;
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid #3e4a61;
     }
 
     .links-container.show {
@@ -782,7 +818,6 @@ div.btns {
         height: 55px;
     }
 
-    /* home section */
     .home {
         flex-direction: column-reverse;
         height: fit-content;
@@ -793,22 +828,29 @@ div.btns {
     .home img {
         margin-top: 25px;
         margin-bottom: 15px;
-        width: 65%;
+        width: 70%;
     }
 
     .hero-content {
-        width: 70%;
+        width: 90%;
         min-width: 350px;
         text-align: center;
     }
 
     .hero-heading {
         font-size: 3rem;
-        justify-content: center;
-        flex-wrap: wrap;
+        text-align: center;
     }
 
-    /* about-section */
+    .profession {
+        margin: 15px auto 20px;
+    }
+
+    .profession::after {
+        content: "";
+        display: none;
+    }
+
     .about-me-container {
         grid-template-columns: 1fr;
     }
@@ -860,11 +902,20 @@ div.btns {
 }
 
 /* =============================================================== */
-/* Mobile View Responsive */
+/* Mobile Responsive */
 /* =============================================================== */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
     html {
         font-size: 12px;
+    }
+}
+
+/* =============================================================== */
+/* Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 576px) {
+    html {
+        font-size: 10px;
     }
 
     p,
@@ -877,6 +928,10 @@ div.btns {
 
     .hero-heading {
         font-size: 2.25rem;
+    }
+
+    .home img {
+        width: 65%;
     }
 
     .skill-card {
@@ -898,6 +953,20 @@ div.btns {
 
     .name .input-container {
         width: 100%;
+    }
+
+    .btn {
+        padding: 15px 20px;
+        height: calc(1.5rem + 28px);
+    }
+
+    .btn.fa {
+        padding: 15px;
+        width: calc(1.5rem + 30px);
+    }
+
+    .btn.right-sided {
+        width: calc(1.5rem + 1.5*30px);
     }
 
     .first-name {
