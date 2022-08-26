@@ -28,7 +28,7 @@ type Singleton struct {
 var lock = &sync.Mutex{}
 var auth *Singleton
 
-var server_port = "0.0.0.0:8080"
+var server_port = "0.0.0.0:80"
 
 // var username = os.Getenv("EMAIL_USERNAME")
 // var password = os.Getenv("EMAIL_PASSWORD")
