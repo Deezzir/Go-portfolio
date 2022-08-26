@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"net/smtp"
+	"os"
+	"sync"
 )
 
 type Response struct {
@@ -16,6 +19,48 @@ type ContactRequest struct {
 	LastName  string `json:"lastname"`
 	Email     string `json:"email"`
 	Message   string `json:"msg"`
+}
+
+type Singleton struct {
+	auth smtp.Auth
+}
+
+var lock = &sync.Mutex{}
+var auth *Singleton
+
+var server_port = "0.0.0.0:8080"
+
+var username = os.Getenv("EMAIL_USERNAME")
+var password = os.Getenv("EMAIL_PASSWORD")
+var host = "smtp.gmail.com"
+var port = "587"
+
+func getAuth() *Singleton {
+	if auth == nil {
+		lock.Lock()
+		defer lock.Unlock()
+		if auth == nil {
+			auth = &Singleton{
+				auth: smtp.PlainAuth("", username, password, host),
+			}
+		}
+	}
+	return auth
+}
+
+func sendEmail(r ContactRequest) {
+	to := []string{username}
+	text := "First name: " + r.FirstName + "\nLast name: " + r.LastName + "\nMessage: " + r.Message
+
+	msg := []byte("To: " + username + "\r\n" +
+		"From: " + r.Email + "\r\n" +
+		"Subject: Portfolio Contact\r\n" +
+		"\r\n" + text + "\r\n")
+
+	err := smtp.SendMail(host+":"+port, getAuth().auth, r.Email, to, msg)
+	if err != nil {
+		log.Println("ERROR: Failed to send email", err)
+	}
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,7 +88,8 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("INFO: request = %+v\n", c)
+	log.Printf("INFO: sending email: %+v\n", c)
+	//sendEmail(c)
 
 	msg := Response{
 		Msg:   "INFO: post request successful",
@@ -54,15 +100,13 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	port := "0.0.0.0:80"
-
 	file_server := http.FileServer(http.Dir("./static"))
 
 	http.Handle("/", file_server)
 	http.HandleFunc("/contact", contactHandler)
 
-	log.Println("INFO: Starting server at port", port)
-	if err := http.ListenAndServe(port, nil); err != nil {
+	log.Println("INFO: Starting server at", server_port)
+	if err := http.ListenAndServe(server_port, nil); err != nil {
 		log.Fatalln(err)
 	}
 }
