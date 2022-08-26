@@ -463,6 +463,7 @@ div.btns {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
+    color: #000;
     text-transform: capitalize;
     margin: 0 5px 10px;
     cursor: pointer;
@@ -741,6 +742,14 @@ div.btns {
 @media screen and (min-width: 1400px) {
     html {
         font-size: 18px;
+    }
+
+    .home img {
+        width: 35%;
+    }
+
+    .about-image {
+        width: 65%;
     }
 }
 
