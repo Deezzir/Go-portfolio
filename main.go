@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
-	"os"
+	// "os"
 	"sync"
 )
 
