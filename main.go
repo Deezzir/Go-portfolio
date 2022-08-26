@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
-	"os"
+	// "os"
 	"sync"
 )
 
@@ -30,8 +30,10 @@ var auth *Singleton
 
 var server_port = "0.0.0.0:8080"
 
-var username = os.Getenv("EMAIL_USERNAME")
-var password = os.Getenv("EMAIL_PASSWORD")
+// var username = os.Getenv("EMAIL_USERNAME")
+// var password = os.Getenv("EMAIL_PASSWORD")
+var username = "check"
+var password = "check"
 var host = "smtp.gmail.com"
 var port = "587"
 
