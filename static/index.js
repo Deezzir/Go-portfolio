@@ -1,21 +1,24 @@
 var fields = {}; // dict with contact form fields
-var navs = {};   // div to hold navigation objects
-var links = [];
-var filters = [];
+var navs = {};   // dict to hold navigation objects
+var links = [];  // list of all navbar links
+var filters = []; // list of project filters
 var ticking = false;
 
+// Main
 document.addEventListener("DOMContentLoaded", function () {
     links = document.querySelectorAll('.link');
     filters = document.querySelectorAll('.filter-btn');
 
     navs.about = document.getElementById('about-section');
     navs.home = document.getElementById('home-section');
+    navs.exp = document.getElementById('experience-section');
     navs.project = document.getElementById('project-section');
     navs.skill = document.getElementById('skill-section');
     navs.contact = document.getElementById('contact-section');
 
     navs.aboutLink = document.getElementById('about-link');
     navs.homeLink = document.getElementById('home-link');
+    navs.expLink = document.getElementById('experience-link');
     navs.projectLink = document.getElementById('project-link');
     navs.skillLink = document.getElementById('skill-link');
     navs.contactLink = document.getElementById('contact-link');
@@ -53,6 +56,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle contact form button
     document.querySelector('.contact-btn').addEventListener('click', fetchContact);
 });
+
+// const projectContainer = document.querySelector('.project-container');
+// projects.forEach(project => {
+//     projectContainer.innerHTML += `
+//     <div class="project-card" data-tags="#all, ${project.tags}">
+//         <img src="img/${project.image}" alt="">
+//         <div class="content">
+//             <h1 class="project-name">${project.name}</h1>
+//             <span class="tags">${project.tags}</span>
+//         </div>
+//     </div>
+//     `;
+// })
 
 function filterBtn(btn) {
     let id = btn.getAttribute('id');
@@ -156,6 +172,9 @@ function changeHash(hash) {
 function checkScroll() {
     if (navs.home.getBoundingClientRect().bottom >= 100)
         changeActiveNav(navs.homeLink);
+
+    if (navs.exp.getBoundingClientRect().top <= 99 && navs.exp.getBoundingClientRect().bottom >= 100)
+        changeActiveNav(navs.expLink);
 
     if (navs.project.getBoundingClientRect().top <= 99 && navs.project.getBoundingClientRect().bottom >= 100)
         changeActiveNav(navs.projectLink);

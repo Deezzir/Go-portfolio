@@ -441,28 +441,37 @@ div.btns {
     color: black;
 }
 
-.btn:hover,
-.btn:active {
+.btn:hover {
     opacity: 0.8;
     transform: translate(-2%, -2%);
 
     background-position: 100% 0;
-    -moz-transition: all .4s ease-in-out;
+    /* -moz-transition: all .4s ease-in-out;
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out; */
 }
 
 .btn:focus {
     outline: none;
 }
 
+/* =============================================================== */
+/* Experience section */
+/* =============================================================== */
+.experience {
+    width: 100%;
+    height: auto;
+    padding: 100px 10vw 0;
+}
 
 /* =============================================================== */
 /* Project section */
 /* =============================================================== */
 .project {
-    position: relative;
+    /* position: relative; */
+    width: 100%;
+    height: auto;
     padding: 100px 10vw 0;
 }
 
@@ -788,7 +797,7 @@ div.btns {
 /* =============================================================== */
 @media screen and (max-width: 1024px) {
     html {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .toggle-btn {
