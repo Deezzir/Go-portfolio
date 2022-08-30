@@ -1,0 +1,223 @@
+/* =============================================================== */
+/* Home section */
+/* =============================================================== */
+.home {
+    width: 100%;
+    min-height: calc(95vh - 80px);
+    height: auto;
+    margin-top: 80px;
+    padding: 0 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.home img {
+    width: 40%;
+    border-radius: 50%;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+.hero-content {
+    width: 50%;
+}
+
+.hero-heading {
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 3rem;
+    font-weight: 500;
+}
+
+.highlight {
+    color: #174dbe;
+}
+
+.profession {
+    font-size: 1rem;
+    width: fit-content;
+    display: block;
+    margin: 15px 0 20px;
+    margin-left: auto;
+    text-transform: capitalize;
+    position: relative;
+    padding: 10px 20px;
+    color: #1d1d1d;
+    z-index: 2;
+}
+
+.profession::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #e3e3e3;
+    z-index: -1;
+    transform: skewX(10deg);
+}
+
+.profession::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 100px;
+    height: 2px;
+    background: #e3e3e3;
+}
+
+.info {
+    font-size: 1.5rem;
+    line-height: 35px;
+    margin-bottom: 55px;
+}
+
+/* Buttons */
+div.btns {
+    display: flex;
+    align-items: center;
+}
+
+.btn {
+    box-sizing: border-box;
+    margin: 5px 0;
+    height: calc(1.3rem + 36px);
+    padding: 18px 25px;
+    text-decoration: none;
+    font-size: 1.3rem;
+    border-radius: 50px;
+    background-size: 300% 100%;
+    color: #fff;
+    text-transform: capitalize;
+    border: none;
+    display: inline-block;
+    text-align: center;
+    background-image: linear-gradient(to right, #174dbe, #2c2cc5, #3f64a8, #0010a4);
+
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+
+.btn.fa {
+    padding: 18px;
+    width: calc(1.3rem + 36px);
+    text-align: center;
+    border-radius: 0;
+}
+
+.btn.left-sided {
+    border-radius: 50px 0 0 50px;
+}
+
+.btn.right-sided {
+    width: calc(1.3rem + 1.5*36px);
+    border-radius: 0 50px 50px 0;
+}
+
+.fa.fa-linkedin {
+    background: #007bb5;
+    color: white;
+}
+
+.fa.fa-github {
+    background: white;
+    color: black;
+}
+
+.btn:hover {
+    opacity: 0.8;
+    transform: translate(-2%, -2%);
+
+    background-position: 100% 0;
+    /* -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out; */
+}
+
+.btn:focus {
+    outline: none;
+}
+
+/* =============================================================== */
+/* Latge Desktops Responsive */
+/* =============================================================== */
+@media screen and (min-width: 1400px) {
+    .home img {
+        width: 35%;
+    }
+}
+
+/* =============================================================== */
+/* Tablets Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1024px) {
+    .home {
+        flex-direction: column-reverse;
+        height: fit-content;
+        padding-bottom: 50px;
+        padding-top: 15px;
+    }
+
+    .home img {
+        margin-top: 25px;
+        margin-bottom: 15px;
+        width: 70%;
+    }
+
+    .hero-content {
+        width: 90%;
+        min-width: 350px;
+        text-align: center;
+    }
+
+    .hero-heading {
+        font-size: 3rem;
+        text-align: center;
+    }
+
+    .profession {
+        margin: 15px auto 20px;
+    }
+
+    .profession::after {
+        content: "";
+        display: none;
+    }
+
+    div.btns {
+        justify-content: center;
+    }
+}
+
+/* =============================================================== */
+/* Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 576px) {
+    .hero-heading {
+        font-size: 2.25rem;
+    }
+
+    .home img {
+        width: 65%;
+    }
+
+    .btn {
+        padding: 15px 20px;
+        height: calc(1.5rem + 28px);
+    }
+
+    .btn.fa {
+        padding: 15px;
+        width: calc(1.5rem + 30px);
+    }
+
+    .btn.right-sided {
+        width: calc(1.5rem + 1.5*30px);
+    }
+}
