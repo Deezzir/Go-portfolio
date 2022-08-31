@@ -91,5 +91,6 @@
     #loader {
         width: 150px;
         height: 150px;
+        margin: -50px 0 0 -85px;
     }
 }
