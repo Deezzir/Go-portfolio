@@ -42,7 +42,6 @@ function defineNavbar(html) {
             if (hash == '') hash = '#home-component'
             let id = hash.replace(/^.*#/, '');
         
-            console.log(id)
             const elem = document.getElementById(id)
             elem.id = `${id}-tmp`
             window.location.hash = hash
