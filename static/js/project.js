@@ -9,6 +9,26 @@ function defineProject(html) {
             super();
             this.shadow = this.attachShadow({ mode: 'open' });
             this.shadow.innerHTML = html;
+
+            this.filters = this.shadow.querySelectorAll('.filter-btn');
+            this.projectCards = this.shadow.querySelectorAll('.project-card');
+        }
+        
+        connectedCallback() {
+            this.filters.forEach(btn => { btn.addEventListener('click', () => { this._filterBtn.call(this, btn); }) });
+        }
+
+        _filterBtn(btn) {
+            let id = btn.getAttribute('id');
+            this.projectCards.forEach(card => {
+                if (card.getAttribute('data-tags').includes(id)) {
+                    card.classList.remove('hide');
+                } else {
+                    card.classList.add('hide');
+                }
+            })
+            this.filters.forEach(btn => btn.classList.remove('active'));
+            btn.classList.add('active');
         }
     }
 
