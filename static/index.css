@@ -20,10 +20,7 @@ body {
     color: #fff;
 }
 
-body,
-input,
-textarea,
-button {
+body {
     font-family: 'Ubuntu', sans-serif;
 }
 
