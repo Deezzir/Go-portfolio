@@ -21,3 +21,9 @@
     height: 1px;
     background: #fff;
 }
+
+.separator {
+    width: 25%;
+    margin: 20px auto;
+    position: relative;
+}
