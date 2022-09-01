@@ -39,7 +39,7 @@ function defineNavbar(html) {
         _changeHash(hash) {
             if (hash == null) return;
         
-            if (hash == '') hash = '#home-component'
+            if (hash == '') hash = '#home'
             let id = hash.replace(/^.*#/, '');
         
             const elem = document.getElementById(id)
