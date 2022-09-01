@@ -13,10 +13,10 @@ function defineNavbar(html) {
             this.navs = {};
             this.links = {};
 
-            this._set();
         }
-
+        
         connectedCallback() {
+            this._set();
             this._checkScroll();
             this._setUpScrollEvent();
 
@@ -32,7 +32,7 @@ function defineNavbar(html) {
         }
 
         _outOfFocus(e) {
-            if (e.target.closest("#navbar-component")) return;
+            if (e.target.closest("#navbar")) return;
             if (this.linksContainer.classList.contains('show')) this._toggle();
         }
 
@@ -110,19 +110,19 @@ function defineNavbar(html) {
             if (this.navs.home.getBoundingClientRect().bottom >= 100)
                 this._changeActiveNav(this.links.homeLink);
 
-            if (this.navs.exp.getBoundingClientRect().top <= 99 && this.navs.exp.getBoundingClientRect().bottom >= 100)
+            else if (this.navs.exp.getBoundingClientRect().top <= 99 && this.navs.exp.getBoundingClientRect().bottom >= 100)
                 this._changeActiveNav(this.links.expLink);
 
-            if (this.navs.project.getBoundingClientRect().top <= 99 && this.navs.project.getBoundingClientRect().bottom >= 100)
+            else if (this.navs.project.getBoundingClientRect().top <= 99 && this.navs.project.getBoundingClientRect().bottom >= 100)
                 this._changeActiveNav(this.links.projectLink);
 
-            if (this.navs.about.getBoundingClientRect().top <= 99 && this.navs.about.getBoundingClientRect().bottom >= 100)
+            else if (this.navs.about.getBoundingClientRect().top <= 99 && this.navs.about.getBoundingClientRect().bottom >= 100)
                 this._changeActiveNav(this.links.aboutLink);
 
-            if (this.navs.skill.getBoundingClientRect().top <= 99 && this.navs.skill.getBoundingClientRect().bottom >= 200)
+            else if (this.navs.skill.getBoundingClientRect().top <= 99 && this.navs.skill.getBoundingClientRect().bottom >= 200)
                 this._changeActiveNav(this.links.skillLink);
 
-            if (this.navs.contact.getBoundingClientRect().top <= 199 || this.navs.contact.getBoundingClientRect().bottom <= 800)
+            else if (this.navs.contact.getBoundingClientRect().top <= 199 || this.navs.contact.getBoundingClientRect().bottom <= 800)
                 this._changeActiveNav(this.links.contactLink);
         }
 
