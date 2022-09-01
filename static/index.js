@@ -1,39 +1,14 @@
 var fields = {}; // dict with contact form fields
-var navs = {};   // dict to hold navigation objects
-var links = [];  // list of all navbar links
 var filters = []; // list of project filters
-var ticking = false;
 
 // Main
 document.addEventListener("DOMContentLoaded", function () {
-    links = document.querySelectorAll('.link');
     filters = document.querySelectorAll('.filter-btn');
-
-    navs.about = document.getElementById('about-section');
-    navs.home = document.getElementById('home-section');
-    navs.exp = document.getElementById('experience-section');
-    navs.project = document.getElementById('project-section');
-    navs.skill = document.getElementById('skill-section');
-    navs.contact = document.getElementById('contact-section');
-
-    navs.aboutLink = document.getElementById('about-link');
-    navs.homeLink = document.getElementById('home-link');
-    navs.expLink = document.getElementById('experience-link');
-    navs.projectLink = document.getElementById('project-link');
-    navs.skillLink = document.getElementById('skill-link');
-    navs.contactLink = document.getElementById('contact-link');
 
     fields.msg = document.querySelector('.message');
     fields.email = document.querySelector('.email');
     fields.firstName = document.querySelector('.first-name');
     fields.lastName = document.querySelector('.last-name');
-
-    // handle scroll 
-    setTimeout(() => {
-        document.body.classList.add("loaded");
-    }, 350);
-    checkScroll();
-    setUpScrollEvent();
 
     // //download CV button
     // fields.download = document.querySelector('#download')
@@ -44,13 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector('.message').addEventListener('blur', () => { fieldValidation(fields.msg, isNotEmpty); })
     document.querySelector('.email').addEventListener('blur', () => { fieldValidation(fields.email, isEmail); })
 
-    // Misk click handlers 
-    document.addEventListener('click', function (event) {
-        if (event.target.closest(".navbar")) return;
-        if (document.querySelector('.links-container').classList.contains('show')) toggle();
-    });
-    document.querySelector('.toggle-btn').addEventListener('click', toggle);
-    document.querySelector('.links-container').addEventListener('click', toggle);
     filters.forEach(btn => { btn.addEventListener('click', () => { filterBtn(btn); }) });
 
     // Handle contact form button
@@ -84,39 +52,6 @@ function filterBtn(btn) {
     btn.classList.add('active');
 }
 
-function setUpScrollEvent() {
-    var raf = window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        window.oRequestAnimationFrame;
-
-
-    if (raf) {
-        document.addEventListener('scroll', (e) => {
-            if (!ticking) {
-                raf(() => {
-                    checkScroll();
-                    ticking = false;
-                });
-
-                ticking = true;
-                changeHash(Array.from(links).find(ele => ele.classList.contains('active')).hash);
-            }
-        });
-    } else {
-        window.scroll = () => { ticking = true; };
-        setInterval(() => {
-            if (scrolling) {
-                scrolling = false;
-                checkScroll();
-            } else {
-                changeHash(Array.from(links).find(ele => ele.classList.contains('active')).hash);
-            }
-        }, 250);
-    }
-}
-
 function fetchContact() {
     if (isValid()) {
         fetch('/contact', {
@@ -134,64 +69,6 @@ function fetchContact() {
                 console.log(data)
             })
     }
-}
-
-function scrollToSmoothly(pos, time) {
-    var currentPos = window.pageYOffset;
-    var start = null;
-    if (time == null) time = 500;
-    pos = +pos, time = +time;
-    window.requestAnimationFrame(function step(currentTime) {
-        start = !start ? currentTime : start;
-        var progress = currentTime - start;
-        if (currentPos < pos) {
-            window.scrollTo(0, ((pos - currentPos) * progress / time) + currentPos);
-        } else {
-            window.scrollTo(0, currentPos - ((currentPos - pos) * progress / time));
-        }
-        if (progress < time) {
-            window.requestAnimationFrame(step);
-        } else {
-            window.scrollTo(0, pos);
-        }
-    });
-}
-
-function changeHash(hash) {
-    if (hash == null) return;
-
-    if (hash == '') hash = '#home-section'
-    let id = hash.replace(/^.*#/, '');
-
-    const elem = document.getElementById(id)
-    elem.id = `${id}-tmp`
-    window.location.hash = hash
-    elem.id = id
-}
-
-function checkScroll() {
-    if (navs.home.getBoundingClientRect().bottom >= 100)
-        changeActiveNav(navs.homeLink);
-
-    if (navs.exp.getBoundingClientRect().top <= 99 && navs.exp.getBoundingClientRect().bottom >= 100)
-        changeActiveNav(navs.expLink);
-
-    if (navs.project.getBoundingClientRect().top <= 99 && navs.project.getBoundingClientRect().bottom >= 100)
-        changeActiveNav(navs.projectLink);
-
-    if (navs.about.getBoundingClientRect().top <= 99 && navs.about.getBoundingClientRect().bottom >= 100)
-        changeActiveNav(navs.aboutLink);
-
-    if (navs.skill.getBoundingClientRect().top <= 99 && navs.skill.getBoundingClientRect().bottom >= 200)
-        changeActiveNav(navs.skillLink);
-
-    if (navs.contact.getBoundingClientRect().top <= 199 || navs.contact.getBoundingClientRect().bottom <= 800)
-        changeActiveNav(navs.contactLink);
-}
-
-function changeActiveNav(active) {
-    links.forEach(ele => ele.classList.remove('active'));
-    active.classList.add('active');
 }
 
 // Email validation
@@ -245,10 +122,4 @@ function isValid() {
     valid &= fieldValidation(fields.email, isEmail);
 
     return valid;
-}
-
-// Toggle navbar
-function toggle() {
-    document.querySelector('.toggle-btn').classList.toggle('active');
-    document.querySelector('.links-container').classList.toggle('show');
 }
