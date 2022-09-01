@@ -53,12 +53,12 @@ function defineNavbar(html) {
             this.toggleBtn = this.shadow.querySelector('.toggle-btn');
             this.linksContainer = this.shadow.querySelector('.links-container');
 
-            this.navs.home = document.getElementById('home-component');
-            this.navs.exp = document.getElementById('experience-component');
-            this.navs.project = document.getElementById('project-component');
-            this.navs.about = document.getElementById('about-component');
-            this.navs.skill = document.getElementById('skill-section');
-            this.navs.contact = document.getElementById('contact-section');
+            this.navs.home = document.getElementById('home');
+            this.navs.exp = document.getElementById('experience');
+            this.navs.project = document.getElementById('projects');
+            this.navs.about = document.getElementById('about');
+            this.navs.skill = document.getElementById('skills');
+            this.navs.contact = document.getElementById('contact');
 
             this.links.aboutLink = this.shadow.getElementById('about-link');
             this.links.homeLink = this.shadow.getElementById('home-link');
