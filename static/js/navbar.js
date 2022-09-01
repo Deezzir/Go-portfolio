@@ -54,7 +54,7 @@ function defineNavbar(html) {
             this.linksContainer = this.shadow.querySelector('.links-container');
 
             this.navs.home = document.getElementById('home-component');
-            this.navs.exp = document.getElementById('experience-section');
+            this.navs.exp = document.getElementById('experience-component');
             this.navs.project = document.getElementById('project-section');
             this.navs.about = document.getElementById('about-section');
             this.navs.skill = document.getElementById('skill-section');
