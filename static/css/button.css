@@ -1,0 +1,41 @@
+.btn {
+    box-sizing: border-box;
+    margin: 5px 0;
+    height: calc(1.3rem + 36px);
+    padding: 18px 25px;
+    text-decoration: none;
+    font-size: 1.3rem;
+    border-radius: 50px;
+    background-size: 300% 100%;
+    color: #fff;
+    text-transform: capitalize;
+    border: none;
+    display: inline-block;
+    text-align: center;
+    background-image: linear-gradient(to right, #174dbe, #2c2cc5, #3f64a8, #0010a4);
+
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btn:hover {
+    opacity: 0.8;
+    transform: translate(-3%, -3%);
+    background-position: 100% 0;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+/* =============================================================== */
+/* Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 576px) {
+    .btn {
+        padding: 15px 20px;
+        height: calc(1.5rem + 28px);
+    }
+}

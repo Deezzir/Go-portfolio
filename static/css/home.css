@@ -1,6 +1,14 @@
 /* =============================================================== */
 /* Home section */
 /* =============================================================== */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .home {
     width: 100%;
     min-height: calc(95vh - 80px);
@@ -27,10 +35,6 @@
     font-family: 'Ubuntu Mono', monospace;
     font-size: 3rem;
     font-weight: 500;
-}
-
-.highlight {
-    color: #174dbe;
 }
 
 .profession {
@@ -74,34 +78,10 @@
     margin-bottom: 55px;
 }
 
-/* Buttons */
-div.btns {
+.contact-btns {
     display: flex;
     align-items: center;
 }
-
-.btn {
-    box-sizing: border-box;
-    margin: 5px 0;
-    height: calc(1.3rem + 36px);
-    padding: 18px 25px;
-    text-decoration: none;
-    font-size: 1.3rem;
-    border-radius: 50px;
-    background-size: 300% 100%;
-    color: #fff;
-    text-transform: capitalize;
-    border: none;
-    display: inline-block;
-    text-align: center;
-    background-image: linear-gradient(to right, #174dbe, #2c2cc5, #3f64a8, #0010a4);
-
-    -moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
-}
-
 
 .btn.fa {
     padding: 18px;
@@ -127,16 +107,6 @@ div.btns {
 .fa.fa-github {
     background: white;
     color: black;
-}
-
-.btn:hover {
-    opacity: 0.8;
-    transform: translate(-3%, -3%);
-    background-position: 100% 0;
-}
-
-.btn:focus {
-    outline: none;
 }
 
 /* =============================================================== */
@@ -185,7 +155,7 @@ div.btns {
         display: none;
     }
 
-    div.btns {
+    #contact-btns {
         justify-content: center;
     }
 }
@@ -200,11 +170,6 @@ div.btns {
 
     .home img {
         width: 65%;
-    }
-
-    .btn {
-        padding: 15px 20px;
-        height: calc(1.5rem + 28px);
     }
 
     .btn.fa {
