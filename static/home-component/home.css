@@ -176,7 +176,7 @@
     .home img {
         margin-top: 25px;
         margin-bottom: 15px;
-        width: 70%;
+        width: 65%;
     }
 
     .hero-content {
@@ -213,7 +213,7 @@
     }
 
     .home img {
-        width: 65%;
+        width: 60%;
     }
 
     .btn.fa {
@@ -223,5 +223,10 @@
 
     .btn.right-sided {
         width: calc(1.5rem + 1.5*30px);
+    }
+
+    .info {
+        font-size: 1.2rem;
+        line-height: 30px;        
     }
 }
