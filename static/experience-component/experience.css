@@ -233,6 +233,9 @@
 /* Small Mobile Responsive */
 /* =============================================================== */
 @media screen and (max-width: 576px) {
+    .timeline {
+        width: 95%;
+    }
 
     .direction-l .desc,
     .direction-r .desc {
