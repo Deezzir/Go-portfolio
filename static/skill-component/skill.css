@@ -142,6 +142,15 @@
     .skill-card.xxlarge {
         grid-column: 2 span !important;
     }
+
+    .inverted-1,
+    .inverted-2,
+    .inverted-3 {
+        background: none !important;
+        -webkit-background-clip: none !important;
+        background-clip: none !important;
+        cursor: default;
+    }
 }
 
 /* =============================================================== */

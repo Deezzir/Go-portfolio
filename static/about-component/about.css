@@ -100,3 +100,24 @@
         font-size: 1.1rem;
     }
 }
+
+/* =============================================================== */
+/* Extra Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 375px) {
+    .about-me-container {
+        grid-gap: 20px;
+    }
+
+    .about-para {
+        margin-bottom: 3vh;
+    }
+
+    .left-col {
+        min-width: fit-content;
+    }
+
+    .right-col a {
+        margin-top: 10px;
+    }
+}
