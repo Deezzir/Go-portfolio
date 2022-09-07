@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/joho/godotenv"
 	"github.com/patrickmn/go-cache"
 	"log"
 	"net/http"
@@ -23,8 +24,8 @@ type singleton struct {
 
 // Contact handler variables and structs
 var (
-	username = os.Getenv("EMAIL_USERNAME")
-	password = os.Getenv("EMAIL_PASSWORD")
+	username = ""
+	password = ""
 	host     = "smtp.gmail.com"
 	port     = "587"
 )
@@ -163,6 +164,13 @@ func fetchProjects() ([]repository, bool) {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("[ERROR]: Failed to load .env file")
+	}
+	username = os.Getenv("EMAIL_USERNAME")
+	password = os.Getenv("EMAIL_PASSWORD")
+
 	file_server := http.FileServer(http.Dir("./static"))
 
 	http.Handle("/", file_server)
