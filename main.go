@@ -51,7 +51,7 @@ type repository struct {
 	Topics      []string `json:"topics"`
 }
 
-var server_port = "0.0.0.0:8080"
+var server_port = "0.0.0.0:80"
 
 func getAuth() *singleton {
 	if auth == nil {
