@@ -2,9 +2,6 @@
     "schemaVersion": 2,
     "dockerfileLines": [
         "FROM golang:1.19 ",
-        "ARG EMAIL_USERNAME",
-        "ENV EMAIL_USERNAME=${EMAIL_USERNAME}",
-        "RUN echo $EMAIL_USERNAME",
         "RUN mkdir /app ",
         "ADD ./ /app/ ",
         "WORKDIR /app ",
