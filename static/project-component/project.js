@@ -54,8 +54,9 @@ function defineProject(html) {
         _setProject(json) {
             if (json) {
                 json.slice(0, 15).forEach(repo => {
-                    let card = document.createElement('div');
+                    let card = document.createElement('a');
                     card.classList.add('project-card');
+                    card.setAttribute('href', repo.html_url);
                     card.setAttribute('data-tags', repo.topics.join(' ') + ' ' + 'all');
                     card.innerHTML = `
                         <h1 class="project-name">${repo.name}</h1>

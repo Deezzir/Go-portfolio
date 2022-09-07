@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
+	"os"
 	"sync"
 	"time"
 )
@@ -80,7 +81,7 @@ func sendEmail(r contactRequest) bool {
 	} else {
 		log.Println("INFO: Email sent successfully")
 	}
-	return err != nil
+	return err == nil
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
