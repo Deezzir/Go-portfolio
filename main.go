@@ -22,8 +22,8 @@ type singleton struct {
 
 // Contact handler variables and structs
 var (
-	var username = os.Getenv("EMAIL_USERNAME")
-	var password = os.Getenv("EMAIL_PASSWORD")
+	username = os.Getenv("EMAIL_USERNAME")
+	password = os.Getenv("EMAIL_PASSWORD")
 	host     = "smtp.gmail.com"
 	port     = "587"
 )
