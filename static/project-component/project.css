@@ -1,0 +1,232 @@
+/* =============================================================== */
+/* Project section */
+/* =============================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.project {
+    /* position: relative; */
+    width: 100%;
+    height: auto;
+    padding: 100px 10vw 0;
+}
+
+.filters {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 80px auto 40px;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border-radius: 7px;
+    border: none;
+    color: #fff;
+    background-color: #3e4a61;
+    text-transform: capitalize;
+    margin: 0 5px 10px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.filter-btn:hover {
+    box-shadow: inset 0px 0px 0px 3px #174dbe;
+}
+
+.filter-btn.active {
+    background: #174dbe;
+    color: #fff;
+}
+
+.project-container {
+    width: 100%;
+    display: flex;
+    grid-gap: 12px;
+    justify-content: center
+}
+
+.project-container.loaded {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.project-card {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    max-width: 13em;
+    min-height: 13em;
+    overflow: hidden;
+    border-radius: .5em;
+    background: #c24d2c;
+    margin: 0.8em;
+    padding: 1.3em;
+    box-shadow: 0 1.5em 2.5em -.5em rgb(0 0 0 / 25%);
+    transition: transform .45s ease, background .45s ease;
+}
+
+.project-name {
+    font-weight: 600;
+    line-height: 1;
+    font-size: 1.2rem;
+    padding-bottom: .7em;
+    border-bottom: 2px solid #174dbe;
+}
+
+.project-lang,
+.desc {
+    font-weight: 2.5;
+    font-size: 1rem;
+}
+
+.project-card .content {
+    opacity: 0;
+    margin: 1.5em 0 1em;
+    transform: translateY(-0.5em);
+    transition: opacity .45s ease, transform .5s ease;
+}
+
+
+.tags {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    text-transform: capitalize;
+}
+
+.tags span {
+    text-decoration: underline;
+}
+
+.project-card:hover {
+    background: rgba(23, 77, 190, 0.75);
+    transform: scale(1.02);
+}
+
+.project-card:hover .content {
+    opacity: 1;
+    transform: none;
+}
+
+.project-card.hide {
+    display: none;
+}
+
+/* =============================================================== */
+/* Animation */
+/* =============================================================== */
+.loaded .loader {
+    display: none;
+}
+
+.loader {
+    display: block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.loader div {
+    position: absolute;
+    top: 33px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loader div:nth-child(1) {
+    left: 8px;
+    animation: loader1 0.6s infinite;
+}
+
+.loader div:nth-child(2) {
+    left: 8px;
+    animation: loader2 0.6s infinite;
+}
+
+.loader div:nth-child(3) {
+    left: 32px;
+    animation: loader2 0.6s infinite;
+}
+
+.loader div:nth-child(4) {
+    left: 56px;
+    animation: loader3 0.6s infinite;
+}
+
+@keyframes loader1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes loader3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes loader2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(24px, 0);
+    }
+}
+
+
+/* =============================================================== */
+/* Latge Desktops Responsive */
+/* =============================================================== */
+@media screen and (min-width: 1400px) {
+    .project-container.loaded {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* =============================================================== */
+/* Tablets Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1024px) {
+    .project-container.loaded {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =============================================================== */
+/* Large Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 768px) {
+    .project-container.loaded {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =============================================================== */
+/* Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 576px) {
+    .project-name {
+        font-size: 3rem;
+    }
+}

@@ -1,0 +1,41 @@
+<link rel="stylesheet" type="text/css" href="../contact-component/contact.css">
+<link rel="stylesheet" type="text/css" href="../css/highlight.css">
+<link rel="stylesheet" type="text/css" href="../css/separator.css">
+<link rel="stylesheet" type="text/css" href="../css/headings.css">
+<link rel="stylesheet" type="text/css" href="../css/button.css">
+
+<section class="contact" id="contact">
+    <h2 class="heading">Contact<span class="highlight"> me</span></h2>
+    <p class="sub-heading">Feel free to contact me anytime</p>
+    <div class="seperator"></div>
+
+    <div class="modal-container closed" id="modal">
+        <div class="modal">
+            <h1 class="modal-title">Modal 2 Title</h1>
+            <button href="#contact" class="close" id="close"></button>
+        </div>
+    </div>
+
+    <div class="contact-form">
+        <div class="name">
+            <div class="input-container">
+                <p id="first-name" class="form-error hidden visuallyhidden">First Name is any</p>
+                <input type="text" class="first-name" maxlength="32" required placeholder="First Name*">
+            </div>
+
+            <div class="input-container">
+                <p id="last-name" class="form-error hidden visuallyhidden">Last Name is any</p>
+                <input type="text" class="last-name" maxlength="32" required placeholder="Last Name*">
+            </div>
+        </div>
+        <div class="input-container">
+            <p id="email" class="form-error hidden visuallyhidden">Email is any</p>
+            <input type="email" class="email" maxlength="254" required placeholder="Email*">
+        </div>
+        <div class="input-container">
+            <p id="message" class="form-error hidden visuallyhidden">Message is any</p>
+            <textarea type="text" class="message" maxlength="200" required placeholder="Message*"></textarea>
+        </div>
+        <button class="btn contact-btn">Contact</button>
+    </div>
+</section>

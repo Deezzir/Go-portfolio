@@ -1,0 +1,159 @@
+/* =============================================================== */
+/* Skills Section */
+/* =============================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.skills {
+    width: 100%;
+    height: auto;
+    padding: 100px 15vw 0;
+}
+
+.skill-container {
+    position: relative;
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+}
+
+.skill-card {
+    height: 70px;
+    /* border-radius: 10px; */
+    border: 1px solid #c24d2c;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.skill {
+    font-size: 1.3rem;
+    color: #d9dad7;
+    line-height: 70px;
+
+    transition: color 0.3s linear;
+}
+
+.skill-card:hover .skill {
+    color: white;
+}
+
+.skill-card.large {
+    grid-column: 2 span;
+}
+
+.skill-card.xlarge {
+    grid-column: 3 span;
+}
+
+.skill-card.xxlarge.title {
+    grid-column: 5 span;
+    background: linear-gradient(to right, var(--bg), var(--bg1), var(--bg2), var(--bg3), var(--bg4));
+}
+
+.skill-card.xxlarge.title .skill {
+    color: #fff;
+}
+
+.inverted-1 {
+    --bg: black;
+
+    --_g1: conic-gradient(from 90deg at 50% 75%, var(--bg) 90deg, #fff 0) no-repeat;
+    --_g2: conic-gradient(from 90deg at 50% 75%, #0000 90deg, var(--bg) 0) no-repeat;
+    background:
+        var(--_g1) 0 calc(134% - var(--_p, 0%)),
+        var(--_g2) 0 calc(134% - var(--_p, 0%)),
+        var(--_g1) 100% calc(200% - var(--_p, 0%)),
+        var(--_g2) 100% calc(200% - var(--_p, 0%)),
+        #000;
+    background-size: 50.2% 400%;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+    transition: 0.8s
+}
+
+/* =============================================================== */
+/* Animation */
+/* =============================================================== */
+.inverted-1:hover {
+    --_p: 134%;
+}
+
+.inverted-2 {
+    --bg: black;
+
+    background:
+        conic-gradient(#fff 0 90deg, #fff0 0) bottom left,
+        conic-gradient(var(--bg) 0 90deg, #fff0 0) bottom left,
+        conic-gradient(from 90deg, #fff 0 90deg, #fff0 0) top left,
+        conic-gradient(from 90deg, var(--bg) 0 90deg, #fff0 0) top left,
+        conic-gradient(from 180deg, #fff 0 90deg, #fff0 0) top right,
+        conic-gradient(from 180deg, var(--bg) 0 90deg, #fff0 0) top right,
+        conic-gradient(from -90deg, #fff 0 90deg, #fff0 0) bottom right,
+        conic-gradient(from -90deg, var(--bg)0 90deg, #fff0 0) bottom right,
+        #000;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+    background-size: 202% 202%;
+    transition: 0.8s;
+}
+
+.inverted-2:hover {
+    background-position: center;
+}
+
+.inverted-3 {
+    --bg: black;
+
+    background:
+        linear-gradient(90deg, #000 50%, #fff 0),
+        linear-gradient(-90deg, #000 50%, #fff 0),
+        linear-gradient(90deg, #0000 50%, var(--bg) 0),
+        linear-gradient(-90deg, #0000 50%, var(--bg) 0);
+    background-repeat: no-repeat;
+    background-size: 200% 51%;
+    background-position: top left, bottom right;
+    -webkit-background-clip: text, text, padding-box, padding-box;
+    background-clip: text, text, padding-box, padding-box;
+    transition: 0.8s
+}
+
+.inverted-3:hover {
+    background-position: top right, bottom left;
+}
+
+/* =============================================================== */
+/* Tablets Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1024px) {
+    .skill-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .skill-card {
+        grid-column: 1 span !important;
+    }
+
+    .skill-card.xxlarge {
+        grid-column: 2 span !important;
+    }
+}
+
+/* =============================================================== */
+/* Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 576px) {
+    .skill-card {
+        height: 50px;
+    }
+
+    .skill {
+        font-size: 1rem;
+        line-height: 50px;
+    }
+}

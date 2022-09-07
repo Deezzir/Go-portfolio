@@ -1,0 +1,102 @@
+/* =============================================================== */
+/* About section */
+/* =============================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.about {
+    width: 100%;
+    height: auto;
+    padding: 100px 10vw 0;
+}
+
+.about-me-container {
+    margin: 80px 0 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 45% 55%;
+    grid-gap: 50px;
+    justify-content: center;
+}
+
+.left-col,
+.right-col {
+    position: relative;
+}
+
+.right-col a {
+    position: absolute;
+    bottom: 0;
+}
+
+.about-image {
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    width: 75%;
+}
+
+.about-para {
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 35px;
+    margin-bottom: 12vh;
+}
+
+/* =============================================================== */
+/* Latge Desktops Responsive */
+/* =============================================================== */
+@media screen and (min-width: 1400px) {
+    .about-image {
+        width: 65%;
+    }
+}
+
+/* =============================================================== */
+/* Tablets Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1024px) {
+    .about-me-container {
+        grid-template-columns: 1fr;
+    }
+
+    .about-para {
+        margin-bottom: 5vh;
+        text-align: center;
+    }
+
+    .left-col {
+        margin: auto;
+        width: 50%;
+        min-width: 320px;
+    }
+
+    .right-col a {
+        position: unset;
+        bottom: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .about-image {
+        width: 90%;
+        margin: auto;
+        display: block;
+    }
+
+}
+
+/* =============================================================== */
+/* Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 576px) {
+    p,
+    .about-para,
+    .left-col::before {
+        line-height: 25px;
+        font-size: 1.1rem;
+    }
+}

@@ -1,0 +1,75 @@
+/* =============================================================== */
+/* Main */
+/* =============================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=Ubuntu&family=Ubuntu+Mono&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    position: relative;
+    background: #1a2639;
+    color: #fff;
+}
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* =============================================================== */
+/* Latge Desktops Responsive */
+/* =============================================================== */
+@media screen and (min-width: 1400px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+/* =============================================================== */
+/* Desktops Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* =============================================================== */
+/* Tablets Responsive */
+/* =============================================================== */
+@media screen and (max-width: 1024px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+/* =============================================================== */
+/* Large Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 768px) {
+    html {
+        font-size: 12px;
+    }
+
+}
+
+/* =============================================================== */
+/* Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 576px) {
+    html {
+        font-size: 10px;
+    }
+
+    p {
+        font-size: 1.2rem;
+    }
+}
