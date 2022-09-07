@@ -62,6 +62,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    text-decoration: none;
+    color: #fff;
 
     max-width: 13em;
     min-height: 13em;
