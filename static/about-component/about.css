@@ -96,6 +96,7 @@
     p,
     .about-para,
     .left-col::before {
-        font-size: 1.2rem;
+        line-height: 25px;
+        font-size: 1.1rem;
     }
 }
