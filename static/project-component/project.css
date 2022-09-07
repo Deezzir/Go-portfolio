@@ -46,14 +46,14 @@
 .project-container {
     width: 100%;
     display: none;
-    grid-gap: 12px;
+    gap: 1em;
     justify-content: center;
     justify-items: center;
 }
 
 .project-container.loaded {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
 
 .project-card {
@@ -66,8 +66,8 @@
     text-decoration: none;
     color: #fff;
 
-    max-width: 13em;
-    min-height: 13em;
+    width: 13em;
+    min-height: 12em;
     overflow: hidden;
     border-radius: .5em;
     background: #c24d2c;
@@ -201,19 +201,19 @@
 /* =============================================================== */
 /* Latge Desktops Responsive */
 /* =============================================================== */
-@media screen and (min-width: 1400px) {
-    .project-container.loaded {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-}
+@media screen and (min-width: 1400px) {}
 
 /* =============================================================== */
 /* Tablets Responsive */
 /* =============================================================== */
 @media screen and (max-width: 1024px) {
     .project-container.loaded {
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
 
-        grid-template-columns: repeat(4, 1fr);
+    .project-card {
+        margin: 0.6em;
+        padding: 1.2em;
     }
 }
 
@@ -222,7 +222,22 @@
 /* =============================================================== */
 @media screen and (max-width: 768px) {
     .project-container.loaded {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+
+    .filter-btn {
+        padding: 10px 15px;
+        font-size: 1.2rem;
+    }
+
+    .project-card .content {
+        opacity: 1;
+        transform: none;
+        margin: 1.2em 0 .8em;
+    }
+
+    .project-card:hover {
+        transform: none;
     }
 }
 
@@ -231,18 +246,42 @@
 /* =============================================================== */
 @media screen and (max-width: 576px) {
     .project-container.loaded {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
-    .project-container.loaded {
-        grid-gap: 8px;
+
+    .project-name {
+        font-size: 1.2rem;
+    }
+
+    .project-lang,
+    .desc {
+        font-size: 0.9rem;
+    }
+
+    .tags {
+        font-size: 0.8rem;
+    }
+}
+
+/* =============================================================== */
+/* Extra Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 375px) {
+    .filter-btn {
+        font-size: 1rem;
+    }
+
+    .tags {
+        font-size: 0.7rem;
     }
 
     .project-name {
-        font-size: 1.6rem;
+        font-size: 1.1rem;
     }
-    .project-card {
-        max-width: 12em;
-        min-height: 12em;
+
+    .project-lang,
+    .desc {
+        font-size: 0.8rem;
     }
 }
