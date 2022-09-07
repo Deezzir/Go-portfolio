@@ -176,6 +176,7 @@ func main() {
 	}
 
 	log.Println("[INFO]: SMTP email at", username)
+	log.Println("[INFO]: SMTP email at", password)
 	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
 		log.Fatalln(err)
