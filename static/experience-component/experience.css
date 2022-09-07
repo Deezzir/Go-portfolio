@@ -242,3 +242,17 @@
         margin: 1.5em 3em;
     }
 }
+
+/* =============================================================== */
+/* Extra Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 375px) {
+    .timeline {
+        width: 100%;
+    }
+
+    .direction-l .desc,
+    .direction-r .desc {
+        margin: 1.5em 2em;
+    }
+}

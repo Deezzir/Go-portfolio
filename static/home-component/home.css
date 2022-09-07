@@ -213,7 +213,7 @@
     }
 
     .home img {
-        width: 60%;
+        width: 75%;
     }
 
     .btn.fa {
@@ -228,5 +228,18 @@
     .info {
         font-size: 1.2rem;
         line-height: 30px;        
+    }
+}
+
+/* =============================================================== */
+/* Extra Small Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 375px) {
+    .hero-content {
+        min-width: fit-content;
+    }
+
+    .info {
+        line-height: 25px;
     }
 }

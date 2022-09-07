@@ -45,9 +45,10 @@
 
 .project-container {
     width: 100%;
-    display: flex;
+    display: none;
     grid-gap: 12px;
-    justify-content: center
+    justify-content: center;
+    justify-items: center;
 }
 
 .project-container.loaded {
@@ -202,7 +203,7 @@
 /* =============================================================== */
 @media screen and (min-width: 1400px) {
     .project-container.loaded {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
 }
 
@@ -211,7 +212,8 @@
 /* =============================================================== */
 @media screen and (max-width: 1024px) {
     .project-container.loaded {
-        grid-template-columns: repeat(3, 1fr);
+
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -220,7 +222,7 @@
 /* =============================================================== */
 @media screen and (max-width: 768px) {
     .project-container.loaded {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -228,7 +230,19 @@
 /* Small Mobile Responsive */
 /* =============================================================== */
 @media screen and (max-width: 576px) {
+    .project-container.loaded {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .project-container.loaded {
+        grid-gap: 8px;
+    }
+
     .project-name {
-        font-size: 3rem;
+        font-size: 1.6rem;
+    }
+    .project-card {
+        max-width: 12em;
+        min-height: 12em;
     }
 }
