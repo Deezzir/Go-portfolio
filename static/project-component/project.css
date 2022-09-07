@@ -19,7 +19,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 80px auto;
+    margin: 80px auto 40px;
 }
 
 .filter-btn {
@@ -45,53 +45,75 @@
 
 .project-container {
     width: 100%;
+    display: flex;
+    grid-gap: 12px;
+    justify-content: center
+}
+
+.project-container.loaded {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
 }
 
 .project-card {
     position: relative;
     cursor: pointer;
-    display: block;
-}
-
-.project-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.project-card .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
     display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: .5s;
-    text-transform: capitalize;
-    opacity: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    max-width: 13em;
+    min-height: 13em;
+    overflow: hidden;
+    border-radius: .5em;
+    background: #c24d2c;
+    margin: 0.8em;
+    padding: 1.3em;
+    box-shadow: 0 1.5em 2.5em -.5em rgb(0 0 0 / 25%);
+    transition: transform .45s ease, background .45s ease;
 }
 
 .project-name {
-    font-weight: 300;
-    font-size: 2.5rem;
-    text-align: center;
+    font-weight: 600;
+    line-height: 1;
+    font-size: 1.2rem;
+    padding-bottom: .7em;
+    border-bottom: 2px solid #174dbe;
 }
 
+.project-lang,
+.desc {
+    font-weight: 2.5;
+    font-size: 1rem;
+}
+
+.project-card .content {
+    opacity: 0;
+    margin: 1.5em 0 1em;
+    transform: translateY(-0.5em);
+    transition: opacity .45s ease, transform .5s ease;
+}
+
+
 .tags {
-    position: absolute;
-    bottom: 20px;
+    font-size: 0.9rem;
     opacity: 0.6;
-    width: 90%;
+    text-transform: capitalize;
+}
+
+.tags span {
+    text-decoration: underline;
+}
+
+.project-card:hover {
+    background: rgba(23, 77, 190, 0.75);
+    transform: scale(1.02);
 }
 
 .project-card:hover .content {
     opacity: 1;
+    transform: none;
 }
 
 .project-card.hide {
@@ -99,10 +121,103 @@
 }
 
 /* =============================================================== */
+/* Animation */
+/* =============================================================== */
+.loaded .loader {
+    display: none;
+}
+
+.loader {
+    display: block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.loader div {
+    position: absolute;
+    top: 33px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loader div:nth-child(1) {
+    left: 8px;
+    animation: loader1 0.6s infinite;
+}
+
+.loader div:nth-child(2) {
+    left: 8px;
+    animation: loader2 0.6s infinite;
+}
+
+.loader div:nth-child(3) {
+    left: 32px;
+    animation: loader2 0.6s infinite;
+}
+
+.loader div:nth-child(4) {
+    left: 56px;
+    animation: loader3 0.6s infinite;
+}
+
+@keyframes loader1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes loader3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes loader2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(24px, 0);
+    }
+}
+
+
+/* =============================================================== */
+/* Latge Desktops Responsive */
+/* =============================================================== */
+@media screen and (min-width: 1400px) {
+    .project-container.loaded {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* =============================================================== */
 /* Tablets Responsive */
 /* =============================================================== */
 @media screen and (max-width: 1024px) {
-    .project-container {
+    .project-container.loaded {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =============================================================== */
+/* Large Mobile Responsive */
+/* =============================================================== */
+@media screen and (max-width: 768px) {
+    .project-container.loaded {
         grid-template-columns: repeat(2, 1fr);
     }
 }
