@@ -171,11 +171,12 @@ func main() {
 
 	defer project_cache.Flush()
 
+	log.Println("[INFO]: SMTP email -", username)
+
 	if username == "" || password == "" {
 		log.Fatal("[ERROR]: Environment variables EMAIL_USERNAME and EMAIL_PASSWORD are not set")
 	}
 
-	log.Println("[INFO]: SMTP email -", username)
 	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
 		log.Fatalln(err)
