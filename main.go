@@ -77,9 +77,9 @@ func sendEmail(r contactRequest) bool {
 	err := smtp.SendMail(host+":"+port, getAuth().auth, r.Email, to, msg)
 
 	if err != nil {
-		log.Println("ERROR: Failed to send email\n", err)
+		log.Println("[ERROR]: Failed to send email\n", err)
 	} else {
-		log.Println("INFO: Email sent successfully")
+		log.Println("[INFO]: Email sent successfully")
 	}
 	return err == nil
 }
@@ -99,11 +99,11 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	var c contactRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&c); err != nil {
-		http.Error(w, "Bad request", http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	log.Printf("INFO: sending email: %+v\n", c)
+	log.Printf("[INFO]: sending email: %+v\n", c)
 	if ok := sendEmail(c); ok {
 		w.WriteHeader(http.StatusOK)
 	} else {
@@ -138,23 +138,23 @@ func fetchProjects() ([]repository, bool) {
 	var projects []repository
 
 	if ps, ok := project_cache.Get("projects"); ok {
-		log.Println("INFO: Getting cached Github API response")
+		log.Println("[INFO]: Getting cached projects")
 		projects = ps.([]repository)
 	} else {
 		resp, err := http.Get(github_api_url)
 
 		if err != nil {
-			log.Println("ERROR: Failed to get Github API response", err)
+			log.Println("[ERROR]: Failed to get projects from GitHubAPI", err)
 			return nil, false
 		} else {
 			defer resp.Body.Close()
 
 			if err := json.NewDecoder(resp.Body).Decode(&projects); err != nil {
-				log.Println("ERROR: Failed to decode Github API response", err)
+				log.Println("[ERROR]: Failed to decode projects from GitHubAPI", err)
 				return nil, false
 			} else {
-				log.Println("INFO: Github API response decoded successfully")
-				log.Println("INFO: Caching Github API response")
+				log.Println("[INFO]: Projects from GitHubAPI decoded successfully")
+				log.Println("[INFO]: Caching projects from GitHubAPI")
 				project_cache.Set("projects", projects, cache.DefaultExpiration)
 			}
 		}
@@ -171,7 +171,12 @@ func main() {
 
 	defer project_cache.Flush()
 
-	log.Println("INFO: Starting server at", server_port)
+	if username == "" || password == "" {
+		log.Fatal("[ERROR]: Environment variables EMAIL_USERNAME and EMAIL_PASSWORD are not set")
+	}
+
+	log.Println("[INFO]: SMTP email -", username)
+	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
 		log.Fatalln(err)
 	}
