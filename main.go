@@ -243,7 +243,7 @@ func fetchProjects() ([]repository, bool) {
 
 // ======================================
 // =============== MAIN =================
-var server_port = "0.0.0.0:80"
+var server_port = "0.0.0.0:8080"
 
 func main() {
 	file_server := http.FileServer(http.Dir("./static"))
@@ -253,7 +253,7 @@ func main() {
 	http.HandleFunc("/project", projectHandler)
 
 	// Check if environment variable is set and create Gmail Service
-	getGmailService()
+	//getGmailService()
 
 	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
