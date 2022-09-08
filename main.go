@@ -243,7 +243,7 @@ func fetchProjects() ([]repository, bool) {
 
 // ======================================
 // =============== MAIN =================
-var server_port = "0.0.0.0:8080"
+var server_port = "0.0.0.0:80"
 
 func main() {
 	file_server := http.FileServer(http.Dir("./static"))
