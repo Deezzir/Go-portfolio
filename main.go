@@ -1,34 +1,37 @@
 package main
 
+// ======================================
+// Imports
 import (
+	"context"
+	"encoding/base64"
 	"encoding/json"
 	"github.com/patrickmn/go-cache"
 	"log"
 	"net/http"
-	"net/smtp"
 	"os"
 	"sync"
 	"time"
+
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	"google.golang.org/api/gmail/v1"
+	"google.golang.org/api/option"
 )
 
+// ======================================
+// ======================================
 // Singleton variables and struct
 var (
-	lock = &sync.Mutex{}
-	auth *singleton
+	lock      = &sync.Mutex{}
+	gmail_srv *singleton
 )
 
 type singleton struct {
-	auth smtp.Auth
+	srv *gmail.Service
 }
 
-// Contact handler variables and structs
-var (
-	username = os.Getenv("EMAIL_USERNAME")
-	password = os.Getenv("EMAIL_PASSWORD")
-	host     = "smtp.gmail.com"
-	port     = "587"
-)
-
+// ContactRequest struct for the form fields
 type contactRequest struct {
 	FirstName string `json:"firstname"`
 	LastName  string `json:"lastname"`
@@ -36,12 +39,15 @@ type contactRequest struct {
 	Message   string `json:"msg"`
 }
 
-// Project handler variables and structs
+// ======================================
+// ======================================
+// Project handler vars and structs
 var (
 	github_api_url = "https://api.github.com/users/Deezzir/repos?sort=pushed&per_page=15"
 	project_cache  = cache.New(5*time.Minute, 10*time.Minute)
 )
 
+// Repository struct for github api repos
 type repository struct {
 	Name        string   `json:"name"`
 	Description string   `json:"description"`
@@ -50,32 +56,93 @@ type repository struct {
 	Topics      []string `json:"topics"`
 }
 
-var server_port = "0.0.0.0:80"
+// ======================================
+// ======================================
+// Gmail API, OAuth2 helper functions
+// ======================================
 
-func getAuth() *singleton {
-	if auth == nil {
-		lock.Lock()
-		defer lock.Unlock()
-		if auth == nil {
-			auth = &singleton{
-				auth: smtp.PlainAuth("", username, password, host),
-			}
-		}
+// Function to create the config for Gmail API from env
+func getGmailConfig() *oauth2.Config {
+	cliendID := os.Getenv("GMAIL_CLIENT_ID")
+	clientSecret := os.Getenv("GMAIL_CLIENT_SECRET")
+
+	if cliendID == "" || clientSecret == "" {
+		log.Fatalln("[ERROR]: GMAIL_CLIENT_ID or GMAIL_CLIENT_SECRET not set")
 	}
-	return auth
+
+	config := &oauth2.Config{
+		ClientID:     cliendID,
+		ClientSecret: clientSecret,
+		Endpoint:     google.Endpoint,
+		RedirectURL:  "http://localhost",
+	}
+
+	return config
 }
 
-func sendEmail(r contactRequest) bool {
-	to := []string{username}
-	text := "First name: " + r.FirstName + "\nLast name: " + r.LastName + "\nMessage: " + r.Message
+// Function to create the token for Gmail Api from env
+func getGmailToken() *oauth2.Token {
+	accessToken := os.Getenv("GMAIL_ACCESS_TOKEN")
+	refreshToken := os.Getenv("GMAIL_REFRESH_TOKEN")
 
-	msg := []byte("To: " + username + "\r\n" +
-		"From: " + r.Email + "\r\n" +
-		"Subject: Portfolio Contact\r\n" +
-		"\r\n" + text + "\r\n")
+	if accessToken == "" || refreshToken == "" {
+		log.Fatalln("[ERROR]: GMAIL_ACCESS_TOKEN or GMAIL_REFRESH_TOKEN not set")
+	}
 
-	err := smtp.SendMail(host+":"+port, getAuth().auth, r.Email, to, msg)
+	token := &oauth2.Token{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		TokenType:    "Bearer",
+		Expiry:       time.Now().Add(time.Hour * 24),
+	}
 
+	return token
+}
+
+// Retrieve a token, saves the token, then returns the generated client
+func getGmailClient(config *oauth2.Config) *http.Client {
+	return config.Client(context.Background(), getGmailToken())
+}
+
+// Function to get the Service for Gmail API in Singleton pattern
+func getGmailService() *singleton {
+	if gmail_srv == nil {
+		lock.Lock()
+		defer lock.Unlock()
+		if gmail_srv == nil {
+			ctx := context.Background()
+			client := getGmailClient(getGmailConfig())
+
+			srv, err := gmail.NewService(ctx, option.WithHTTPClient(client))
+			if err != nil {
+				log.Fatalf("[ERROR]: Unable to retrieve Gmail client: %v\n", err)
+			}
+
+			gmail_srv = &singleton{srv: srv}
+		}
+	}
+	return gmail_srv
+}
+
+// ======================================
+// ======================================
+// Function to send email using Gmail API
+func sendEmail(r contactRequest, srv *gmail.Service) bool {
+	// Create the message
+	msg := "From: " + r.Email +
+		"\nName: " + r.FirstName + " " + r.LastName +
+		"\n\n\n" + r.Message
+
+	email_text := "From: " + r.Email + "\r\n" +
+		"To: " + "deezzir@gmail.com" + "\r\n" +
+		"Subject: Portfolio Contact\r\n\r\n" +
+		msg
+
+	email := &gmail.Message{
+		Raw: base64.URLEncoding.EncodeToString([]byte(email_text)),
+	}
+
+	_, err := srv.Users.Messages.Send("me", email).Do()
 	if err != nil {
 		log.Println("[ERROR]: Failed to send email\n", err)
 	} else {
@@ -84,6 +151,10 @@ func sendEmail(r contactRequest) bool {
 	return err == nil
 }
 
+// ======================================
+// ======================================
+// Handler for '/contact' route
+// Sends an email using the Gmail API, error if failed
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/contact" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
@@ -103,14 +174,18 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("[INFO]: sending email: %+v\n", c)
-	if ok := sendEmail(c); ok {
+	log.Printf("[INFO]: Sending email with: %+v\n", c)
+	if ok := sendEmail(c, getGmailService().srv); ok {
 		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
 
+// ======================================
+// ======================================
+// Handler for '/projects' route
+// Sends a list of  GitHub repos to the client, error if failed
 func projectHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/project" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
@@ -134,6 +209,10 @@ func projectHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// ======================================
+// ======================================
+// Function to fetch projects from Github API and cache them
+// Returns a list of repositories and a boolean indicating success
 func fetchProjects() ([]repository, bool) {
 	var projects []repository
 
@@ -162,6 +241,10 @@ func fetchProjects() ([]repository, bool) {
 	return projects, true
 }
 
+// ======================================
+// =============== MAIN =================
+var server_port = "0.0.0.0:80"
+
 func main() {
 	file_server := http.FileServer(http.Dir("./static"))
 
@@ -169,13 +252,9 @@ func main() {
 	http.HandleFunc("/contact", contactHandler)
 	http.HandleFunc("/project", projectHandler)
 
-	defer project_cache.Flush()
+	// Check if environment variable is set and create Gmail Service
+	getGmailService()
 
-	if username == "" || password == "" {
-		log.Fatal("[ERROR]: Environment variables EMAIL_USERNAME and EMAIL_PASSWORD are not set")
-	}
-
-	log.Println("[INFO]: SMTP email at", username)
 	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
 		log.Fatalln(err)
