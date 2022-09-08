@@ -253,7 +253,7 @@ func main() {
 	http.HandleFunc("/project", projectHandler)
 
 	// Check if environment variable is set and create Gmail Service
-	//getGmailService()
+	getGmailService()
 
 	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
