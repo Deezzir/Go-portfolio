@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/patrickmn/go-cache"
 	"log"
 	"net/http"
@@ -61,57 +62,78 @@ type repository struct {
 // Gmail API, OAuth2 helper functions
 // ======================================
 
-// Function to create the config for Gmail API from env
-func getGmailConfig() *oauth2.Config {
-	cliendID := os.Getenv("GMAIL_CLIENT_ID")
-	clientSecret := os.Getenv("GMAIL_CLIENT_SECRET")
-
-	if cliendID == "" || clientSecret == "" {
-		log.Fatalln("[ERROR]: GMAIL_CLIENT_ID or GMAIL_CLIENT_SECRET not set")
+// Retrieve a token, saves the token, then returns the generated client.
+func getGmailAPIClient(config *oauth2.Config) *http.Client {
+	tokenFile := "token.json"
+	token, err := getTokenFile(tokenFile)
+	if err != nil {
+		token = getTokenFromWeb(config)
+		saveTokenFile(tokenFile, token)
 	}
+	return config.Client(context.Background(), token)
+}
 
-	config := &oauth2.Config{
-		ClientID:     cliendID,
-		ClientSecret: clientSecret,
-		Endpoint:     google.Endpoint,
-		RedirectURL:  "http://localhost",
+// Get the Gmail API config
+func getGmailAPIConfig() *oauth2.Config {
+	b, err := os.ReadFile("credentials.json")
+	if err != nil {
+		log.Fatalf("[ERROR]: Unable to read credentials file: %v\n", err)
 	}
-
+	config, err := google.ConfigFromJSON(b, gmail.GmailSendScope)
+	if err != nil {
+		log.Fatalf("[ERROR]: Unable to parse credential file to config: %v\n", err)
+	}
 	return config
 }
 
-// Function to create the token for Gmail Api from env
-func getGmailToken() *oauth2.Token {
-	accessToken := os.Getenv("GMAIL_ACCESS_TOKEN")
-	refreshToken := os.Getenv("GMAIL_REFRESH_TOKEN")
+// Request a token from the web, then returns the retrieved token.
+func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
+	authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
+	log.Printf("[WARNING]: authorization link: \n%v\n", authURL)
 
-	if accessToken == "" || refreshToken == "" {
-		log.Fatalln("[ERROR]: GMAIL_ACCESS_TOKEN or GMAIL_REFRESH_TOKEN not set")
+	var authCode string
+	if _, err := fmt.Scan(&authCode); err != nil {
+		log.Fatalf("[ERROR]: Unable to read authorization code: %v", err)
 	}
 
-	token := &oauth2.Token{
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-		TokenType:    "Bearer",
-		Expiry:       time.Now().Add(time.Hour * 24),
+	tok, err := config.Exchange(context.TODO(), authCode)
+	if err != nil {
+		log.Fatalf("[ERROR]: Unable to retrieve token from web: %v", err)
 	}
-
-	return token
+	return tok
 }
 
-// Retrieve a token, saves the token, then returns the generated client
-func getGmailClient(config *oauth2.Config) *http.Client {
-	return config.Client(context.Background(), getGmailToken())
+// Retrieves a token from a local file.
+func getTokenFile(file string) (*oauth2.Token, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	tok := &oauth2.Token{}
+	err = json.NewDecoder(f).Decode(tok)
+	return tok, err
+}
+
+// Saves a token to a file path.
+func saveTokenFile(path string, token *oauth2.Token) {
+	log.Printf("[INFO]: Saving credential file to: %s\n", path)
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
+	if err != nil {
+		log.Fatalf("[ERROR]: Unable to cache oauth token: %v", err)
+	}
+	defer f.Close()
+	json.NewEncoder(f).Encode(token)
 }
 
 // Function to get the Service for Gmail API in Singleton pattern
-func getGmailService() *singleton {
+func getGmailAPIService() *singleton {
 	if gmail_srv == nil {
 		lock.Lock()
 		defer lock.Unlock()
 		if gmail_srv == nil {
 			ctx := context.Background()
-			client := getGmailClient(getGmailConfig())
+			client := getGmailAPIClient(getGmailAPIConfig())
 
 			srv, err := gmail.NewService(ctx, option.WithHTTPClient(client))
 			if err != nil {
@@ -175,7 +197,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Printf("[INFO]: Sending email with: %+v\n", c)
-	if ok := sendEmail(c, getGmailService().srv); ok {
+	if ok := sendEmail(c, getGmailAPIService().srv); ok {
 		w.WriteHeader(http.StatusOK)
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -252,8 +274,8 @@ func main() {
 	http.HandleFunc("/contact", contactHandler)
 	http.HandleFunc("/project", projectHandler)
 
-	// Check if environment variable is set and create Gmail Service
-	getGmailService()
+	// set and create Gmail Service
+	_ = getGmailAPIService()
 
 	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
