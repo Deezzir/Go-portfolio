@@ -96,7 +96,7 @@ func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 		log.Fatalf("[ERROR]: Unable to read authorization code: %v", err)
 	}
 
-	tok, err := config.Exchange(context.TODO(), authCode)
+	tok, err := config.Exchange(context.Background(), authCode)
 	if err != nil {
 		log.Fatalf("[ERROR]: Unable to retrieve token from web: %v", err)
 	}
@@ -273,9 +273,6 @@ func main() {
 	http.Handle("/", file_server)
 	http.HandleFunc("/contact", contactHandler)
 	http.HandleFunc("/project", projectHandler)
-
-	// set and create Gmail Service
-	_ = getGmailAPIService()
 
 	log.Println("[INFO]: Starting server at", server_port)
 	if err := http.ListenAndServe(server_port, nil); err != nil {
