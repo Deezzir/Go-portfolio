@@ -1,5 +1,5 @@
 FROM golang:1.19
-RUN ls -la ../
+RUN ls -la ../root
 RUN mkdir /app
 ADD ./ /app/
 WORKDIR /app 
