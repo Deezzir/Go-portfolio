@@ -230,7 +230,7 @@ func fetchProjectsLangs(projects []project) bool {
 		} else {
 			defer resp.Body.Close()
 
-			var langs map[string]interface{}
+			var langs map[string]float32
 
 			if err := json.NewDecoder(resp.Body).Decode(&langs); err != nil {
 				log.Println("[ERROR]: Failed to decode project languages from GitHubAPI", err)
@@ -242,7 +242,7 @@ func fetchProjectsLangs(projects []project) bool {
 					langs_key = append(langs_key, k)
 				}
 				sort.SliceStable(langs_key, func(i, j int) bool {
-					return langs[langs_key[i]].(float64) > langs[langs_key[j]].(float64)
+					return langs[langs_key[i]] > langs[langs_key[j]]
 				})
 				if len(langs_key) > 3 {
 					langs_key = langs_key[:3]
