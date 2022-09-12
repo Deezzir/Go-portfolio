@@ -65,7 +65,7 @@ function defineProject(html) {
                             <br/>
                             <p class="tags"><span>Tags</span>: ${repo.topics.join(', ')}</p>
                         </div>
-                        <p class="project-lang">${repo.language || ''}</p>
+                        <p class="project-lang">${repo.languages ? repo.languages.join(' ')  : ''}</p>
                     `;
                     this.projectContainer.appendChild(card);
                 }

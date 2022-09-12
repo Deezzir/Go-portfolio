@@ -45,7 +45,7 @@
 
 .project-container {
     width: 100%;
-    display: none;
+    display: block;
     gap: 1em;
     justify-content: center;
     justify-items: center;
@@ -133,6 +133,7 @@
 .loader {
     display: block;
     position: relative;
+    margin: 0 auto;
     width: 80px;
     height: 80px;
 }

@@ -7,12 +7,14 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/patrickmn/go-cache"
 	"log"
 	"net/http"
 	"os"
+	"sort"
 	"sync"
 	"time"
+
+	"github.com/patrickmn/go-cache"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -21,18 +23,21 @@ import (
 )
 
 // ======================================
+// GMAIL Service vars and structs
 // ======================================
-// Singleton variables and struct
 var (
-	lock      = &sync.Mutex{}
-	gmail_srv *singleton
+	lock     = &sync.Mutex{}
+	gmailSrv *singleton
 )
 
+// Singleton struct for Gmail API Service
 type singleton struct {
 	srv *gmail.Service
 }
 
-// ContactRequest struct for the form fields
+// ======================================
+// Contact Handler vars and structs
+// ======================================
 type contactRequest struct {
 	FirstName string `json:"firstname"`
 	LastName  string `json:"lastname"`
@@ -41,20 +46,21 @@ type contactRequest struct {
 }
 
 // ======================================
-// ======================================
 // Project handler vars and structs
+// ======================================
 var (
-	github_api_url = "https://api.github.com/users/Deezzir/repos?sort=pushed&per_page=15"
-	project_cache  = cache.New(5*time.Minute, 10*time.Minute)
+	githubAPI_repos = "https://api.github.com/users/Deezzir/repos?sort=pushed&per_page=15"
+	githubAPI_repo  = "https://api.github.com/repos/Deezzir/"
+	projectCache    = cache.New(30*time.Minute, 10*time.Minute)
 )
 
-// Repository struct for github api repos
-type repository struct {
+// Project struct for github api repos
+type project struct {
 	Name        string   `json:"name"`
 	Description string   `json:"description"`
 	RepoURL     string   `json:"html_url"`
-	Language    string   `json:"language"`
 	Topics      []string `json:"topics"`
+	Languages   []string `json:"languages"`
 }
 
 // ======================================
@@ -62,7 +68,7 @@ type repository struct {
 // Gmail API, OAuth2 helper functions
 // ======================================
 
-// Retrieve a token, saves the token, then returns the generated client.
+// Retrieves a token, saves the token, then returns the generated client.
 func getGmailAPIClient(config *oauth2.Config) *http.Client {
 	tokenFile := "token.json"
 	token, err := getTokenFile(tokenFile)
@@ -73,7 +79,7 @@ func getGmailAPIClient(config *oauth2.Config) *http.Client {
 	return config.Client(context.Background(), token)
 }
 
-// Get the Gmail API config
+// Get the Gmail API config from the credentials.json file, returns the config
 func getGmailAPIConfig() *oauth2.Config {
 	b, err := os.ReadFile("credentials.json")
 	if err != nil {
@@ -103,7 +109,7 @@ func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 	return tok
 }
 
-// Retrieves a token from a local file.
+// Retrieves a token from a local file, returns the retrieved token, error if no token is found
 func getTokenFile(file string) (*oauth2.Token, error) {
 	f, err := os.Open(file)
 	if err != nil {
@@ -127,11 +133,12 @@ func saveTokenFile(path string, token *oauth2.Token) {
 }
 
 // Function to get the Service for Gmail API in Singleton pattern
+// returns *gmail.Service
 func getGmailAPIService() *singleton {
-	if gmail_srv == nil {
+	if gmailSrv == nil {
 		lock.Lock()
 		defer lock.Unlock()
-		if gmail_srv == nil {
+		if gmailSrv == nil {
 			ctx := context.Background()
 			client := getGmailAPIClient(getGmailAPIConfig())
 
@@ -140,15 +147,14 @@ func getGmailAPIService() *singleton {
 				log.Fatalf("[ERROR]: Unable to retrieve Gmail client: %v\n", err)
 			}
 
-			gmail_srv = &singleton{srv: srv}
+			gmailSrv = &singleton{srv: srv}
 		}
 	}
-	return gmail_srv
+	return gmailSrv
 }
 
-// ======================================
-// ======================================
 // Function to send email using Gmail API
+// returns bool if email was sent successfully
 func sendEmail(r contactRequest, srv *gmail.Service) bool {
 	// Create the message
 	msg := "From: " + r.Email +
@@ -174,7 +180,86 @@ func sendEmail(r contactRequest, srv *gmail.Service) bool {
 }
 
 // ======================================
+// Projects Handler Helper Functions
 // ======================================
+
+// Function to fetch projects from Github API and cache them
+// Returns a list of repositories and a boolean indicating success
+func fetchProjects() ([]project, bool) {
+	var projects []project
+
+	if ps, ok := projectCache.Get("projects"); ok {
+		log.Println("[INFO]: Getting cached projects")
+		projects = ps.([]project)
+	} else {
+		resp, err := http.Get(githubAPI_repos)
+
+		if err != nil {
+			log.Println("[ERROR]: Failed to get projects from GitHubAPI", err)
+			return nil, false
+		} else {
+			defer resp.Body.Close()
+
+			if err := json.NewDecoder(resp.Body).Decode(&projects); err != nil {
+				log.Println("[ERROR]: Failed to decode projects from GitHubAPI", err)
+				return nil, false
+			} else {
+				log.Println("[INFO]: Projects from GitHubAPI decoded successfully")
+				if ok := fetchProjectsLangs(projects); !ok {
+					log.Println("[ERROR]: Failed to fetch projects languages")
+				}
+				log.Println("[INFO]: Caching projects from GitHubAPI")
+
+				projectCache.Set("projects", projects, cache.DefaultExpiration)
+			}
+		}
+	}
+	return projects, true
+}
+
+// Function to fetch projects languages from Github API
+// Returns a boolean indicating success
+func fetchProjectsLangs(projects []project) bool {
+	for i := range projects {
+		project := &projects[i]
+		resp, err := http.Get(githubAPI_repo + project.Name + "/languages")
+
+		if err != nil {
+			log.Println("[ERROR]: Failed to get project languages from GitHubAPI", err)
+			return false
+		} else {
+			defer resp.Body.Close()
+
+			var langs map[string]interface{}
+
+			if err := json.NewDecoder(resp.Body).Decode(&langs); err != nil {
+				log.Println("[ERROR]: Failed to decode project languages from GitHubAPI", err)
+				return false
+			} else {
+				var langs_key []string
+
+				for k := range langs {
+					langs_key = append(langs_key, k)
+				}
+				sort.SliceStable(langs_key, func(i, j int) bool {
+					return langs[langs_key[i]].(float64) > langs[langs_key[j]].(float64)
+				})
+				if len(langs_key) > 3 {
+					langs_key = langs_key[:3]
+				}
+
+				project.Languages = langs_key
+			}
+		}
+	}
+	log.Printf("[INFO]: Projects languages decoded successfully\n")
+	return true
+}
+
+// ======================================
+// Routes
+// ======================================
+
 // Handler for '/contact' route
 // Sends an email using the Gmail API, error if failed
 func contactHandler(w http.ResponseWriter, r *http.Request) {
@@ -204,8 +289,6 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ======================================
-// ======================================
 // Handler for '/projects' route
 // Sends a list of  GitHub repos to the client, error if failed
 func projectHandler(w http.ResponseWriter, r *http.Request) {
@@ -232,39 +315,8 @@ func projectHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // ======================================
+// Main
 // ======================================
-// Function to fetch projects from Github API and cache them
-// Returns a list of repositories and a boolean indicating success
-func fetchProjects() ([]repository, bool) {
-	var projects []repository
-
-	if ps, ok := project_cache.Get("projects"); ok {
-		log.Println("[INFO]: Getting cached projects")
-		projects = ps.([]repository)
-	} else {
-		resp, err := http.Get(github_api_url)
-
-		if err != nil {
-			log.Println("[ERROR]: Failed to get projects from GitHubAPI", err)
-			return nil, false
-		} else {
-			defer resp.Body.Close()
-
-			if err := json.NewDecoder(resp.Body).Decode(&projects); err != nil {
-				log.Println("[ERROR]: Failed to decode projects from GitHubAPI", err)
-				return nil, false
-			} else {
-				log.Println("[INFO]: Projects from GitHubAPI decoded successfully")
-				log.Println("[INFO]: Caching projects from GitHubAPI")
-				project_cache.Set("projects", projects, cache.DefaultExpiration)
-			}
-		}
-	}
-	return projects, true
-}
-
-// ======================================
-// =============== MAIN =================
 var server_port = "0.0.0.0:80"
 
 func main() {
