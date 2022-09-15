@@ -12,7 +12,6 @@ function defineNavbar(html) {
 
             this.navs = {};
             this.links = {};
-
         }
         
         connectedCallback() {
@@ -38,10 +37,11 @@ function defineNavbar(html) {
 
         _changeHash(hash) {
             if (hash == null) return;
-        
             if (hash == '') hash = '#home'
+
+            if (window.location.hash == hash) return;
+
             let id = hash.replace(/^.*#/, '');
-        
             const elem = document.getElementById(id)
             elem.id = `${id}-tmp`
             window.location.hash = hash
@@ -60,12 +60,14 @@ function defineNavbar(html) {
             this.navs.skill = document.getElementById('skills');
             this.navs.contact = document.getElementById('contact');
 
-            this.links.aboutLink = this.shadow.getElementById('about-link');
             this.links.homeLink = this.shadow.getElementById('home-link');
             this.links.expLink = this.shadow.getElementById('experience-link');
             this.links.projectLink = this.shadow.getElementById('project-link');
+            this.links.aboutLink = this.shadow.getElementById('about-link');
             this.links.skillLink = this.shadow.getElementById('skill-link');
             this.links.contactLink = this.shadow.getElementById('contact-link');
+
+            this.active = null;
         }
 
         _setUpScrollEvent() {
@@ -75,7 +77,6 @@ function defineNavbar(html) {
                 window.msRequestAnimationFrame ||
                 window.oRequestAnimationFrame;
 
-
             if (raf) {
                 document.addEventListener('scroll', (e) => {
                     if (!this.ticking) {
@@ -83,27 +84,21 @@ function defineNavbar(html) {
                             this._checkScroll();
                             this.ticking = false;
                         });
-
+                        
                         this.ticking = true;
-                        this._changeHash(Object.values(this.links).find(ele => ele.classList.contains('active')).hash);
                     }
                 });
-            } else {
-                window.scroll = () => { ticking = true; };
-                setInterval(() => {
-                    if (this.ticking) {
-                        this.ticking = false;
-                        checkScroll();
-                    } else {
-                        this._changeHash(Object.values(this.links).find(ele => ele.classList.contains('active')).hash);
-                    }
-                }, 250);
             }
         }
 
         _changeActiveNav(active) {
-            Object.values(this.links).forEach(ele => ele.classList.remove('active'));
-            active.classList.add('active');
+            if (this.active != active) {
+                if (this.active != null ) this.active.classList.remove('active');
+
+                this.active = active;
+                this.active.classList.add('active');
+                this._changeHash(this.active.hash);
+            }
         }
 
         _checkScroll() {
