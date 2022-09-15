@@ -1,6 +1,6 @@
 // Main
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("load", function () {
     setTimeout(() => {
         document.getElementById('loader-wrapper').classList.add("loaded");
-    }, 350);     
+    }, 300);     
 });
